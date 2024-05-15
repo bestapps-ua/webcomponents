@@ -169,11 +169,11 @@ class BestAppsComponent extends HTMLElement {
         }
     }
 
-    initProps() {
+    async initProps() {
 
     }
 
-    render() {
+    async render() {
 
     }
 
