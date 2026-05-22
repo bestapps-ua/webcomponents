@@ -2,8 +2,6 @@
  *  Attributes:
  *  - debug - is set any value - will show debug info for that Component
  *
- *  Properties:
- *  - defaultOptions - set default for that Component
  *
  *  Settings:
  *  - defaultObservedAttributes - observable attributes list, by default - debug
@@ -11,6 +9,61 @@
  *  - rootClass - internal, using to identify that its belongs by class to BestAppComponent
  *  - EVENT_* - list of events, which you can subscribe
  */
+
+class BestAppsDeferred {
+    constructor() {
+        this.promise = new Promise((resolve, reject) => {
+            this.reject = reject
+            this.resolve = resolve
+        })
+    }
+}
+
+class BestAppsPublishSubscribe {
+    constructor() {
+        this.events = {}
+    }
+
+    subscribe(event, handler, options = {}) {
+        if (!this.events[event]) {
+            this.events[event] = [];
+        }
+        this.events[event].push({handler, options})
+    }
+
+    subscribeOnce(event, handler) {
+        this.subscribe(event, handler, {once: true});
+    }
+
+    unsubscribe(event, handler) {
+        if (this.events[event]) {
+            const index = this.events[event].findIndex(item => item.handler === handler);
+            this.events[event].splice(index, 1);
+        }
+    }
+
+    publish(event, data) {
+
+        if (!this.events[event]) {
+            return false;
+        }
+        let toRemove = [];
+        let i = 0;
+        for (const item of this.events[event]) {
+            item.handler(data);
+            if (item.options.once === true) {
+                toRemove.push(i);
+            }
+            i++;
+        }
+        for (let i = toRemove.length - 1; i > 0; i--) {
+            this.events[event].splice(i, 1);
+        }
+        return true;
+    }
+
+}
+
 class BestAppsComponent extends HTMLElement {
     static defaultObservedAttributes = ['debug'];
     static observedAttributes = [...this.defaultObservedAttributes];
@@ -18,6 +71,12 @@ class BestAppsComponent extends HTMLElement {
     // basic selector
     static rootClass = 'ba-component';
     static tag = 'ba-component';
+
+
+    /**
+     * @property {BestAppsDeferred} loadedDefer
+     */
+    loadedDefer;
 
     static EVENT_CHANGED = 'changed';
     static EVENT_ATTRIBUTE_CHANGED = 'attribute.changed';
@@ -29,21 +88,27 @@ class BestAppsComponent extends HTMLElement {
     static EVENT_ADOPTED = 'adopted';
     static EVENT_PROPS_SET = 'props.set';
     static EVENT_ELEMENTS_SET = 'elements.set';
+    static EVENT_OPTIONS_SET = 'options.set';
     static EVENT_ERROR = 'error';
+    static EVENT_UPDATE = 'update';
 
-    constructor() {
+
+    constructor(props) {
+        props = props || {};
         super();
+
+        this.loadedDefer = new BestAppsDeferred();
+        this.pubsub = new BestAppsPublishSubscribe();
 
         this.defaultOptions = {
             debug: false,
-        };
+        }
 
-        this._data = {
-            options: Object.create(this.defaultOptions),
-            subscriptions: new Map(),
-        };
+        let options = (props && props.options) || {};
 
-        this.component = {
+        this.initData(options);
+
+        this.element = {
             shadow: undefined,
             style: undefined,
             wrapper: undefined,
@@ -52,6 +117,14 @@ class BestAppsComponent extends HTMLElement {
         this.guid = this.generateUid();
 
         this.initSubscriptions();
+    }
+
+    initData(options) {
+        this._data = {
+            options: Object.assign({}, this.getDefaultOptions(), options),
+            subscriptions: new Map(),
+        };
+        return this._data;
     }
 
     initSubscriptions() {
@@ -69,7 +142,7 @@ class BestAppsComponent extends HTMLElement {
         try {
             let d = await this[method](data) || (data || {});
             d._source = data;
-            this._sendSubscriptionEvent(event, d);
+            this.publish(event, d);
             return d;
         } catch (err) {
             this.warning('callWithEvent', err, {method, event, data});
@@ -86,7 +159,7 @@ class BestAppsComponent extends HTMLElement {
      * - initConnected
      */
     connectedCallback() {
-        this._sendSubscriptionEvent(this.constructor.EVENT_CONNECTING, this);
+        this.publish(this.constructor.EVENT_CONNECTING, this);
         new Promise(async (resolve, reject) => {
             await this.callWithEvent('initProps', this.constructor.EVENT_PROPS_SET);
             await this.callWithEvent('initElements', this.constructor.EVENT_ELEMENTS_SET);
@@ -140,32 +213,55 @@ class BestAppsComponent extends HTMLElement {
 
     async initElements() {
         this.classList.add(this.constructor.rootClass);
-        this.component.shadow = this.attachShadow({mode: "open"});
-        this.component.style = document.createElement("style");
-        this.component.wrapper = document.createElement("div");
-        this.component.wrapper.setAttribute("class", "wrapper");
-        this.component.style.textContent = this.getStyle();
-        this.component.shadow.appendChild(this.component.style);
-        this.component.shadow.appendChild(this.component.wrapper);
-        this.component.data = this.getData();
+        this.element.shadow = this.attachShadow({mode: "open"});
+        this.element.style = document.createElement("style");
+        this.element.wrapper = document.createElement("div");
+        this.element.wrapper.setAttribute("class", "wrapper");
+        this.element.wrapper.setAttribute("part", "wrapper");
+        this.element.style.textContent = this.getStyle();
+        this.element.shadow.appendChild(this.element.style);
+        this.element.shadow.appendChild(this.element.wrapper);
+        this.element.data = this.getData();
         let guid = this.getAttribute('guid');
+
         if (!guid) {
             this.setAttribute('guid', this.guid);
         }
+
+        this.addEventListener(this.getEventListenerName(this.constructor.EVENT_UPDATE), (data) => {
+            this.update(data);
+        });
     }
 
     async checkClone() {
+
+        const querySelectorAll = (node, selector) => {
+            const nodes = [...node.querySelectorAll(selector)],
+                nodeIterator = document.createNodeIterator(node, Node.ELEMENT_NODE);
+            let currentNode;
+            while (currentNode = nodeIterator.nextNode()) {
+                if (currentNode.shadowRoot) {
+                    nodes.push(...querySelectorAll(currentNode.shadowRoot, selector));
+                }
+            }
+            return nodes;
+        }
+
         let guid = this.getAttribute('guid');
         if (!guid) {
+            console.log('cur', this);
             return;
         }
         let selector = `.${this.constructor.rootClass}[guid="${guid}"]`;
-        let el = document.querySelector(selector);
-        if (el && this.guid !== guid) {
+        //let el = document.querySelector(selector);
+        let el = querySelectorAll(document, selector);
+
+        if (el.length > 0 && this.guid !== guid) {
+            console.log('CLONED', el, this.guid !== guid);
             this.setAttribute('cloned-guid', guid);
             this.clonedGuid = guid;
             this.setAttribute('guid', this.guid);
-            await this.callWithEvent('clonedCallback', this.constructor.EVENT_CLONED, el);
+            await this.callWithEvent('clonedCallback', this.constructor.EVENT_CLONED, el[0]);
         }
     }
 
@@ -184,26 +280,28 @@ class BestAppsComponent extends HTMLElement {
     async initConnected() {
         this.setAttribute('loaded', `loaded`);
         this.loaded = true;
+        this.loadedDefer.resolve(true);
         return this;
     }
 
-    _getSubscriptions(action) {
-        return this.getData().subscriptions.get(action) || [];
+    subscribe(action, callback) {
+        this.pubsub.subscribe(action, callback);
     }
 
-    subscribe(action, callback) {
-        let subs = this._getSubscriptions(action);
-        subs.push(callback);
-        this.getData().subscriptions.set(action, subs);
+    subscribeOnce(action, callback) {
+        this.pubsub.subscribeOnce(action, callback);
+    }
+
+    unsubscribe(action, callback) {
+        this.pubsub.unsubscribe(action, callback);
     }
 
     /**
      * Please use only in callWithEvent
      * @param action
      * @param data
-     * @private
      */
-    _sendSubscriptionEvent(action, data) {
+    publish(action, data) {
         let options = this.getOptions();
         if (options.debug) {
             console.log('EVENT:',
@@ -219,10 +317,7 @@ class BestAppsComponent extends HTMLElement {
             );
         }
 
-        let subs = this._getSubscriptions(action);
-        for (const sub of subs) {
-            sub(data);
-        }
+        this.pubsub.publish(action, data);
     }
 
     /**
@@ -239,8 +334,14 @@ class BestAppsComponent extends HTMLElement {
         return this._data;
     }
 
-    setData(data) {
+    setData(data, key) {
+        let d = this.getData()
+        if (key) {
+            d[key] = data;
+            return d;
+        }
         this._data = data;
+        return this.getData();
     }
 
     static getTags() {
@@ -254,8 +355,13 @@ class BestAppsComponent extends HTMLElement {
     }
 
     async setOptions(options) {
-        options = Object.assign(await this.getOptions(), options);
+        options = Object.assign({}, this.getOptions(), options);
         this._data.options = options;
+        await this.callWithEvent('processOptions', this.constructor.EVENT_OPTIONS_SET, options);
+    }
+
+    get options() {
+        return this.getOptions();
     }
 
     getOptions() {
@@ -274,7 +380,7 @@ class BestAppsComponent extends HTMLElement {
 
     warning(action, error, data) {
         console.warn(action, {data, error, component: this.constructor.name, guid: this.guid});
-        this._sendSubscriptionEvent(this.constructor.EVENT_ERROR, {action, error, data});
+        this.publish(this.constructor.EVENT_ERROR, {action, error, data});
     }
 
     async processDisconnected() {
@@ -289,23 +395,17 @@ class BestAppsComponent extends HTMLElement {
         if (name === 'debug' && newValue) {
             await this.setOption('debug', true);
         }
-
-        setTimeout(async () => {
-            await this.callWithEvent('processChanged', this.constructor.EVENT_CHANGED, {
-                type: 'attribute',
-                data: {name, oldValue, newValue}
-            });
-        }, 1);
+        await this.sendChanged('attribute', {name, oldValue, newValue});
     }
 
     /**
      * https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptedStyleSheets
      * @param css
      */
-    addCss(css){
+    addCss(css) {
         const sheet = new CSSStyleSheet();
         sheet.replaceSync(css);
-        this.component.shadow.adoptedStyleSheets = [...this.component.shadow.adoptedStyleSheets, sheet];
+        this.element.shadow.adoptedStyleSheets = [...this.element.shadow.adoptedStyleSheets, sheet];
     }
 
     async processConnecting() {
@@ -313,6 +413,59 @@ class BestAppsComponent extends HTMLElement {
     }
 
     async processConnected() {
+    }
+
+    async processOptions(options) {
+        return options;
+    }
+
+    static getEvents() {
+        let events = [];
+        for (let key in this) {
+            if (key.indexOf('EVENT_') === 0) {
+                events.push({[key]: this[key]});
+            }
+        }
+        return events;
+    }
+
+    async sendChanged(type, data) {
+        await this.callWithEvent('processChanged', this.constructor.EVENT_CHANGED, {
+            type,
+            data,
+        });
+    }
+
+    getDefaultOptions() {
+        return this.defaultOptions;
+    }
+
+    /**
+     * Using for rerender data
+     * Can be used to destroy some data in component by onBeforeRefresh and onAfterRefresh
+     * @returns {Promise<void>}
+     */
+    async refresh() {
+        await this.onBeforeRefresh();
+        await this.render();
+        await this.onAfterRefresh();
+    }
+
+    async onBeforeRefresh() {
 
     }
+
+    async onAfterRefresh() {
+
+    }
+
+    async update(data) {
+
+    }
+
+    getEventListenerName(eventName) {
+        return `ba-${eventName}`;
+    }
 }
+
+customElements.define(BestAppsComponent.tag, BestAppsComponent);
