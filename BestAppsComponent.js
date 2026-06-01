@@ -160,14 +160,12 @@ class BestAppsComponent extends HTMLElement {
      */
     connectedCallback() {
         this.publish(this.constructor.EVENT_CONNECTING, this);
-        new Promise(async (resolve, reject) => {
+        (async () => {
             await this.callWithEvent('initProps', this.constructor.EVENT_PROPS_SET);
             await this.callWithEvent('initElements', this.constructor.EVENT_ELEMENTS_SET);
             await this.callWithEvent('render', this.constructor.EVENT_RENDERED);
-            resolve();
-        }).then(async () => {
             await this.callWithEvent('initConnected', this.constructor.EVENT_CONNECTED);
-        }).catch((err) => {
+        })().catch((err) => {
             this.warning('connectedCallback', err);
         });
     }

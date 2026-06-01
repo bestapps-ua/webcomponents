@@ -64,7 +64,6 @@ All lifecycle methods are async and wrapped by `callWithEvent()` which catches e
 - `loadedDefer` lets external code await component initialization
 
 ## Cons
-- `connectedCallback` wraps async work in `new Promise(async ...)` which is an anti-pattern (executor should not be async; errors in the Promise constructor may not propagate correctly)
 - No unsubscribe mechanism is used in practice - risk of memory leaks for long-lived components
 - `checkClone` does a full document traversal including all shadow roots - potentially expensive on large trees
 - `_data.subscriptions` Map is initialized but never used (the pub/sub system uses its own `events` object)
@@ -72,4 +71,4 @@ All lifecycle methods are async and wrapped by `callWithEvent()` which catches e
 - `observedAttributes` only includes `['debug']` in the base class; subclasses must remember to spread `defaultObservedAttributes`
 
 ## Issues
-- **Async Promise constructor**: `connectedCallback()` uses `new Promise(async (resolve, reject) => {...})` which swallows rejections that occur before the first `await`
+- None currently tracked
