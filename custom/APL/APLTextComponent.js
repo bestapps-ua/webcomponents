@@ -92,6 +92,15 @@ class APLTextComponent extends APLComponent {
             this.style.maxHeight = `${fontSize}px`;
         }
     }
+
+    shouldCaptureClick() { return true; }
+
+    renderContent() {
+        const data = this.getAPLData();
+        const div = document.createElement('div');
+        div.textContent = data.text;
+        this.element.wrapper.replaceChildren(div);
+    }
 }
 
 customElements.define(APLTextComponent.tag, APLTextComponent);

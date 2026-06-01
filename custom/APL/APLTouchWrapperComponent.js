@@ -32,6 +32,8 @@ class APLTouchWrapperComponent extends APLTouchableComponent {
             if (!maxHeight) this.style.maxHeight = `${height}`;
         }
     }
+
+    shouldCaptureClick() { return true; }
 }
 
 customElements.define(APLTouchWrapperComponent.tag, APLTouchWrapperComponent);

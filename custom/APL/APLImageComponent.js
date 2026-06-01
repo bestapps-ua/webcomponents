@@ -61,6 +61,16 @@ class APLImageComponent extends APLComponent {
         if (scaleMap[scale]) image.style.objectFit = scaleMap[scale];
     }
 
+    shouldCaptureClick() { return true; }
+
+    renderContent() {
+        const data = this.getAPLData();
+        const img = document.createElement('img');
+        img.src = data.source;
+        img.alt = '';
+        this.element.wrapper.replaceChildren(img);
+    }
+
     async initElements() {
         await super.initElements();
     }

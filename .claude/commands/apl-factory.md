@@ -59,4 +59,4 @@ Describe the APLFactory based on the following analysis.
 - Hardcoded type checks: `['APLTouchWrapper', 'APLText', 'APLImage'].includes(...)` should be a component method
 
 ## Issues
-- **Hardcoded component names**: `initComponent()` and `processElementAction()` hardcode APL type strings for dispatch logic instead of using component methods/interfaces
+- None currently tracked

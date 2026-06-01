@@ -127,7 +127,7 @@ class APLFactory {
     }
 
     processElementAction(ev, el, callback) {
-        if (['APLTouchWrapper', 'APLText', 'APLImage'].includes(el.getAPLType())) {
+        if (el.shouldCaptureClick()) {
             ev.stopPropagation();
             callback();
         } else {
@@ -258,21 +258,8 @@ class APLFactory {
     }
 
     initComponent(component) {
-        let type = component.getAPLType();
         component.setAttribute('draggable', 'true');
-        let data = component.getAPLData();
-        if (type === 'APLImage') {
-            const img = document.createElement('img');
-            img.src = data.source;
-            img.alt = '';
-            component.element.wrapper.replaceChildren(img);
-        } else if (type === 'APLText') {
-            const div = document.createElement('div');
-            div.textContent = data.text;
-            component.element.wrapper.replaceChildren(div);
-        } else {
-            component.element.wrapper.textContent = component.getAPLName();
-        }
+        component.renderContent();
         this.onSelect(component);
     }
 

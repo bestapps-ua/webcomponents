@@ -144,6 +144,14 @@ class APLComponent extends BestAppsComponent {
         return this.APLEvents;
     }
 
+    shouldCaptureClick() {
+        return false;
+    }
+
+    renderContent() {
+        this.element.wrapper.textContent = this.getAPLName();
+    }
+
     setAPLName(APLName) {
         this.APLName = APLName;
         this.setAttribute('apl-name', APLName);
