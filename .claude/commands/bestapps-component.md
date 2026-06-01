@@ -67,7 +67,6 @@ All lifecycle methods are async and wrapped by `callWithEvent()` which catches e
 - No unsubscribe mechanism is used in practice - risk of memory leaks for long-lived components
 - `checkClone` does a full document traversal including all shadow roots - potentially expensive on large trees
 - `_data.subscriptions` Map is initialized but never used (the pub/sub system uses its own `events` object)
-- `setOption()` mutates the options object directly but doesn't fire `EVENT_OPTIONS_SET` (unlike `setOptions()`)
 - `observedAttributes` only includes `['debug']` in the base class; subclasses must remember to spread `defaultObservedAttributes`
 
 ## Issues

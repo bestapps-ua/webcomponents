@@ -367,8 +367,7 @@ class BestAppsComponent extends HTMLElement {
     }
 
     async setOption(key, value) {
-        let options = this.getOptions();
-        options[key] = value;
+        await this.setOptions({ [key]: value });
     }
 
     async clonedCallback(fromElement) {

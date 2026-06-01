@@ -593,7 +593,7 @@ Phase 4 (LOW - Quality):
 | 3.1 | Tooltip color missing # prefix                    | done    | 2026-06-01 | pending-commit |
 | 3.2 | APLText onCSSSet doesn't chain parent              | done    | 2026-06-01 | pending-commit |
 | 3.3 | connectedCallback async Promise anti-pattern       | done    | 2026-06-01 | pending-commit |
-| 3.4 | setOption doesn't fire EVENT_OPTIONS_SET            | pending |      |         |
+| 3.4 | setOption doesn't fire EVENT_OPTIONS_SET            | done    | 2026-06-01 | pending-commit |
 | 3.5 | Vendor script ID collision                         | pending |      |         |
 | 3.6 | APLDocument overrides parent style entirely         | pending |      |         |
 | 3.7 | APLContainer missing position properties            | pending |      |         |
