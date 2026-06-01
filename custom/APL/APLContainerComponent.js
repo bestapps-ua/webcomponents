@@ -69,6 +69,8 @@ class APLContainerComponent extends APLMultiChildComponent {
                 }
             }
         });
+        properties = Object.assign(APLProperties.getContainerProperties(), properties);
+        properties = Object.assign(APLProperties.getAlignmentAndPositioningProperties(), properties);
         return properties;
     }
 }

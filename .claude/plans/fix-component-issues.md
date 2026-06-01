@@ -596,7 +596,7 @@ Phase 4 (LOW - Quality):
 | 3.4 | setOption doesn't fire EVENT_OPTIONS_SET            | done    | 2026-06-01 | pending-commit |
 | 3.5 | Vendor script ID collision                         | done    | 2026-06-01 | pending-commit |
 | 3.6 | APLDocument overrides parent style entirely         | done    | 2026-06-01 | pending-commit |
-| 3.7 | APLContainer missing position properties            | pending |      |         |
+| 3.7 | APLContainer missing position properties            | done    | 2026-06-01 | pending-commit |
 | 3.8 | localStorage key not namespaced                    | pending |      |         |
 | 3.9 | AppYearMonth leaks window event listeners           | pending |      |         |
 | 4.1 | Duplicate generateUid in APLCommand                 | pending |      |         |
