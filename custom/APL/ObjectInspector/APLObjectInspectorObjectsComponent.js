@@ -360,7 +360,13 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
         if (type.dragType === 'OPTION') {
             let from = window.apl.aplDom.findByGuid(type.dragId);
             let to = window.apl.aplDom.findByGuid(option.getAttribute('value'));
+            if (!from || !to) {
+                console.warn('drag-drop: could not find tree items', { dragId: type.dragId, targetId: option.getAttribute('value'), from, to });
+                return;
+            }
+            if (from.guid === to.guid) return;
             let mv = window.apl.aplDom.move(from, to);
+            if (!mv.remove || !mv.moveTo) return;
             window.aplFactory.cloneByDomItemsMove(mv.remove, mv.moveTo);
         }
     }

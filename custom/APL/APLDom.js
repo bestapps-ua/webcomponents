@@ -96,15 +96,15 @@ class APLDom {
      * @param toParentComponent
      */
     move(oldComponent, toParentComponent) {
-        // console.log('MOVE TO', oldComponent);
+        if (!oldComponent || !toParentComponent) {
+            return { moveTo: undefined, remove: undefined };
+        }
         let moveTo = this.getComponentData(toParentComponent);
-        console.log('MOVE TO DATA', oldComponent, moveTo);
         let merge = {
             moveTo,
             remove: undefined,
         };
         let toDelete = this.getComponentData(oldComponent);
-        console.log('TO DELETE DATA', toParentComponent, toDelete);
         merge.remove = toDelete;
         return merge;
     }
@@ -124,7 +124,9 @@ class APLDom {
     }
 
     getComponentData(component) {
+        if (!component) return null;
         let item = this.findByComponent(component);
+        if (!item) return null;
         return this.getComponentDataByItem(item);
     }
 

@@ -17,10 +17,10 @@ class APL {
         window.apl = this;
 
         this.pubsub.subscribe(APLComponent.EVENT_PARENT_CHANGED, (data) => {
-            console.log('GLOBAL REFRESH', data);
-            console.log('APLDOM', this.aplDom);
-            let res = this.aplDom.move(data.component, this.aplDom.findByGuid(data.parent));
-            console.log('HOWTO', res);
+            let parentItem = this.aplDom.findByGuid(data.parent);
+            if (!parentItem) return;
+            let res = this.aplDom.move(data.component, parentItem);
+            if (!res.remove || !res.moveTo) return;
             window.aplFactory.cloneByDomItemsMove(res.remove, res.moveTo);
         });
 

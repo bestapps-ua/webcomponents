@@ -207,6 +207,7 @@ class APLFactory {
     }
 
     async cloneByDomItemsMove(remove, moveTo, level = 0, childsToDelete = [], options) {
+        if (!remove?.item || !moveTo?.item) return;
         options = options || {sendEvent: true};
         let isOpen = this.inspector.objectsSelectorComponent.isOpen();
         let isSameLevel = window.aplDom.isOnSameLevel(remove.item, moveTo.item);
