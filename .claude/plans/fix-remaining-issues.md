@@ -394,7 +394,7 @@ Phase 3 (LOW - Skill corrections):
 | 1.2 | APLDom removed nodes not cleaned up                 | done    | 2026-06-01 | pending-commit |
 | 1.3 | APLDom inconsistent child access                    | done    | 2026-06-01 | pending-commit |
 | 1.4 | APL missing null checks in onTabChange              | done    | 2026-06-01 | pending-commit |
-| 1.5 | PropertyAdaptor setTimeout race condition           | pending |      |         |
+| 1.5 | PropertyAdaptor setTimeout race condition           | done    | 2026-06-01 | pending-commit |
 | 1.6 | APLDialogs missing Escape key handler               | pending |      |         |
 | 2.1 | APLLoader global scheme variable dependency         | pending |      |         |
 | 2.2 | APLLoader script tag leak on refresh                | pending |      |         |

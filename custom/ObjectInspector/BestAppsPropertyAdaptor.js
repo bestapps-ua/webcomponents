@@ -30,9 +30,9 @@ class BestAppsPropertyAdaptor {
      */
     setComponent(component) {
         if (this._component !== component){
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 this.onComponentLoad(this.getComponent());
-            }, 1);
+            });
         }
         this._component = component;
 
