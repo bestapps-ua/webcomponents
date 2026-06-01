@@ -71,10 +71,9 @@ PropertyEditor -> EVENT_CHANGED
 
 ## Cons
 - No undo/redo support for property changes
-- Tooltip implementation creates DOM elements on `document.body` outside the shadow DOM - leaks into global DOM
 - Property activation on click/focus can be confused when multiple properties are rapidly clicked
 - No search/filter for properties in large property lists
 - Tab panels are all created upfront, not lazy-loaded
 
 ## Issues
-- **Tooltip DOM leak**: `BestAppsObjectInspectorPropertyComponent.initTooltip()` appends tooltip elements to `document.body`, bypassing shadow DOM encapsulation
+

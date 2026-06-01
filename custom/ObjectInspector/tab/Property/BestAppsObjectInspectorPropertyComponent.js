@@ -92,7 +92,7 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
         //TODO: make special tooltip element?
         this.nameTooltipEl = document.createElement('span');
         this.nameTooltipEl.classList.add('ba-tooltip-text');
-        this.nameTooltipEl.style.position = 'absolute';
+        this.nameTooltipEl.style.position = 'fixed';
         this.nameTooltipEl.style.display = 'none';
         this.nameTooltipEl.style.width = '120px';
         this.nameTooltipEl.style.backgroundColor = 'black';
@@ -100,7 +100,8 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
         this.nameTooltipEl.style.textAlign = 'center';
         this.nameTooltipEl.style.padding = '5px 0';
         this.nameTooltipEl.style.borderRadius = '6px';
-        document.body.appendChild(this.nameTooltipEl);
+        this.nameTooltipEl.style.zIndex = '9999';
+        this.element.wrapper.appendChild(this.nameTooltipEl);
         this.nameEl.addEventListener("mouseover", (event) => {
             let rects = this.nameEl.getClientRects();
             this.nameTooltipEl.style.left = `${rects[0].left + 10}px`;
