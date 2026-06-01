@@ -2,8 +2,8 @@ class APLDocumentComponent extends APLComponent {
     static tag = 'apl-document-component';
 
     getStyle() {
-        //let style = super.getStyle();
-        let style = `
+        let style = super.getStyle();
+        style += `
             :host {
                 display: block;
                 width: 100%;
