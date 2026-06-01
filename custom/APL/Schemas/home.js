@@ -1,4 +1,4 @@
-let scheme = {
+var scheme = {
   "document": {
     "type": "APL",
     "version": "1.4",
