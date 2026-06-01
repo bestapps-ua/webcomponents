@@ -78,4 +78,3 @@ PropertyEditor -> EVENT_CHANGED
 
 ## Issues
 - **Tooltip DOM leak**: `BestAppsObjectInspectorPropertyComponent.initTooltip()` appends tooltip elements to `document.body`, bypassing shadow DOM encapsulation
-- **Tooltip color**: `this.nameTooltipEl.style.color = 'fff'` is missing the `#` prefix, rendering as default color

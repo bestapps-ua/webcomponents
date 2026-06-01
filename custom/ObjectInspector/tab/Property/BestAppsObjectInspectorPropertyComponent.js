@@ -96,7 +96,7 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
         this.nameTooltipEl.style.display = 'none';
         this.nameTooltipEl.style.width = '120px';
         this.nameTooltipEl.style.backgroundColor = 'black';
-        this.nameTooltipEl.style.color = 'fff';
+        this.nameTooltipEl.style.color = '#fff';
         this.nameTooltipEl.style.textAlign = 'center';
         this.nameTooltipEl.style.padding = '5px 0';
         this.nameTooltipEl.style.borderRadius = '6px';

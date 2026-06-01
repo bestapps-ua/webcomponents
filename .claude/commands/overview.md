@@ -91,6 +91,5 @@ custom/
 - No package manager usage (empty `package.json`)
 
 ## Known Issues
-- Tooltip color set to `'fff'` instead of `'#fff'` in PropertyComponent
 - No error handling for missing vendor scripts or broken schema files
 - `localStorage` usage in APLObjectInspectorObjectsComponent is not namespaced
