@@ -56,4 +56,4 @@ Inspector EVENT_CHANGED
 - No way to unregister callbacks
 
 ## Issues
-- **Deep coupling chain**: `getTabs()` navigates 3 levels of internal component structure - any refactoring of the inspector hierarchy would break this method
+- None currently tracked

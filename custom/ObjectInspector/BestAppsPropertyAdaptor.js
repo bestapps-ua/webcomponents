@@ -44,7 +44,7 @@ class BestAppsPropertyAdaptor {
     }
 
     getTabs() {
-        return this.getInspector().objectsSelectorComponent.tabsComponent.getTabs()
+        return this.getInspector().getTabs();
     }
 
     /**

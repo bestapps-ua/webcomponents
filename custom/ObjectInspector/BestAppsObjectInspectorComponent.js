@@ -108,6 +108,10 @@ class BestAppsObjectInspectorComponent extends BestAppsObjectInspectorComponents
         `;
     }
 
+    getTabs() {
+        return this.objectsSelectorComponent?.tabsComponent?.getTabs() || [];
+    }
+
     async update({component, tabs}) {
         await this.updateComponent(component);
         await this.objectsSelectorComponent.update({component, tabs});
