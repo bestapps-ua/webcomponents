@@ -410,5 +410,5 @@ Phase 3 (LOW - Skill corrections):
 | 3.5 | Skill correction: touchwrapper events are by design | done    | 2026-06-01 | pending-commit |
 | 3.6 | Skill correction: no unnecessary registrations      | done    | 2026-06-01 | pending-commit |
 | 3.7 | Skill correction: palette APL coupling comment      | done    | 2026-06-01 | pending-commit |
-| 3.8 | APLProperties decode deep clone breaks functions    | pending |      |         |
+| 3.8 | APLProperties decode deep clone breaks functions    | done    | 2026-06-01 | pending-commit |
 | 3.9 | Skill correction: year range is consistently 9      | done    | 2026-06-01 | pending-commit |

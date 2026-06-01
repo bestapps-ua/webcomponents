@@ -91,7 +91,13 @@ class APLProperties {
                     if (typeof value === 'undefined') {
                         value = property.default || '';
                     }
-                    props[key] = JSON.parse(JSON.stringify(property));
+                    const copy = {};
+                    for (const p of Object.keys(property)) {
+                        copy[p] = (typeof property[p] === 'object' && property[p] !== null)
+                            ? JSON.parse(JSON.stringify(property[p]))
+                            : property[p];
+                    }
+                    props[key] = copy;
                     props[key].value = value;
                     properties[key].value = value;
                 } catch (err) {
