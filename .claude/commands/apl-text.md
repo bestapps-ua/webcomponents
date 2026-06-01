@@ -56,4 +56,4 @@ component.element.wrapper.innerHTML = `<div>${data.text}</div>`;
 - No rich text / HTML rendering support (APL supports limited HTML in text)
 
 ## Issues
-- **Dead CSS properties**: Over half the typography properties are defined but never mapped to CSS
+- None currently tracked

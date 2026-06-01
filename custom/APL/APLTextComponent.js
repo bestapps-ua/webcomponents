@@ -25,7 +25,7 @@ class APLTextComponent extends APLComponent {
             fontStyle: {
                 type: 'text',
                 options: {
-
+                    css: true,
                 }
             },
             fontWeight: {
@@ -37,13 +37,13 @@ class APLTextComponent extends APLComponent {
             letterSpacing: {
                 type: 'text',
                 options: {
-
+                    css: true,
                 }
             },
             lineHeight: {
                 type: 'dimension',
                 options: {
-
+                    css: true,
                 }
             },
             maxLines: {
@@ -61,7 +61,7 @@ class APLTextComponent extends APLComponent {
             textAlign: {
                 type: 'text',
                 options: {
-
+                    css: true,
                 }
             },
             textAlignVertical: {

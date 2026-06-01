@@ -390,7 +390,7 @@ Phase 3 (LOW - Skill corrections):
 
 | ID  | Description                                        | Status  | Date | Commit  |
 |-----|----------------------------------------------------|---------|------|---------|
-| 1.1 | APLText dead CSS properties not mapped              | pending |      |         |
+| 1.1 | APLText dead CSS properties not mapped              | done    | 2026-06-01 | pending-commit |
 | 1.2 | APLDom removed nodes not cleaned up                 | pending |      |         |
 | 1.3 | APLDom inconsistent child access                    | pending |      |         |
 | 1.4 | APL missing null checks in onTabChange              | pending |      |         |
