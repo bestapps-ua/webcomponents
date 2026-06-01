@@ -56,4 +56,3 @@ The `onTabChange` callback handles three tab types:
 
 ## Issues
 - **Global coupling**: Direct references to `window.apl`, `window.aplFactory`, `window.aplDom` throughout the codebase make components untestable in isolation
-- **Missing null checks**: `onTabChange` accesses `source.data.data.command` chains without null guards

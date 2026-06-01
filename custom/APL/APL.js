@@ -123,6 +123,7 @@ class APL {
 
         propertyAdaptor.onTabChange = ({tabName, data, source}) => {
             let component = propertyAdaptor.getComponent();
+            if (!component || !source?.data) return;
             let aplData = component.getAPLData();
             if (tabName === 'Properties') {
                 APLProperties.encode(component, source.data.key, data?.value);
@@ -133,9 +134,10 @@ class APL {
                 let commandCurrent;
                 let d;
                 let nAplData;
-                switch (source.data.type) {
+                switch (source.data?.type) {
                     case APLObjectInspectorPropertyCommandComponent.EVENT_COMMAND_EVENT_REMOVED:
-                        command = source.data.data.command;
+                        command = source.data?.data?.command;
+                        if (!command) break;
 
                         d = aplData[key];
                         let idx = -1;
@@ -151,8 +153,9 @@ class APL {
                         break;
 
                     case APLObjectInspectorPropertyCommandComponent.EVENT_COMMAND_EVENT_ADDED:
-                        command = source.data.data.command;
-                        commandCurrent = source.data.data.commandCurrent;
+                        command = source.data?.data?.command;
+                        commandCurrent = source.data?.data?.commandCurrent;
+                        if (!command || !commandCurrent) break;
                         d = aplData[key];
                         nAplData = commandCurrent.getAPLData();
                         nAplData.uid = command.uid;
@@ -164,8 +167,9 @@ class APL {
                         break;
 
                     case APLObjectInspectorPropertyCommandComponent.EVENT_COMMAND_EVENT_SAVED:
-                        command = source.data.data.command;
-                        commandCurrent = source.data.data.commandCurrent;
+                        command = source.data?.data?.command;
+                        commandCurrent = source.data?.data?.commandCurrent;
+                        if (!command || !commandCurrent) break;
                         d = aplData[key];
                         if (!d) {
                             aplData[key] = [];
@@ -187,7 +191,7 @@ class APL {
             } else if (tabName === 'Data') {
                 switch (source.data.type) {
                     case APLObjectInspectorDataTabComponent.EVENT_TAB_JSON_CHANGED:
-                        let json = source.data.data.json;
+                        let json = source.data?.data?.json;
                         this.updateTabs(json);
                         break;
                 }
