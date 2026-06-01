@@ -37,31 +37,10 @@ class APLLoader {
      */
     async createComponents(items, container) {
         for (const item of items) {
-            let className;
-            switch (item.type) {
-                case "Container":
-                    className = APLContainerComponent;
-                    break;
-
-                case "Frame":
-                    className = APLFrameComponent;
-                    break;
-
-                case "Image":
-                    className = APLImageComponent;
-                    break;
-
-                case "Text":
-                    className = APLTextComponent;
-                    break;
-
-                case "TouchWrapper":
-                    className = APLTouchWrapperComponent;
-                    break;
-
-                default:
-                    console.warn('err createComponents', {type: item.type, item});
-                    continue;
+            let className = getAPLComponentClass(item.type);
+            if (!className) {
+                console.warn('err createComponents', {type: item.type, item});
+                continue;
             }
             let component = await this.factory.copyFromTag(className.tag, `APL${item.type}`, container, item);
 

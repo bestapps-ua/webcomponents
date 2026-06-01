@@ -47,4 +47,4 @@ Describe the APLLoader based on the following analysis.
 - Unknown types are silently skipped with `console.warn` - no user-facing error
 - No validation of schema structure
 ## Issues
-- **Switch statement maintainability**: Adding a new APL component type requires changes in three places: `APLLoader.createComponents()`, `APLPalette.initComponents()`, and the component class file itself
+- None currently tracked

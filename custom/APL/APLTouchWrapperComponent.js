@@ -35,3 +35,4 @@ class APLTouchWrapperComponent extends APLTouchableComponent {
 }
 
 customElements.define(APLTouchWrapperComponent.tag, APLTouchWrapperComponent);
+registerAPLComponent('TouchWrapper', APLTouchWrapperComponent);

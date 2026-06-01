@@ -24,14 +24,9 @@ class APLPalette {
 
     initComponents() {
         this.palette.subscribe(BestAppsComponent.EVENT_RENDERED, () => {
-            this.createContainer();
-            this.createEditText();
-            this.createImage();
-            this.createScrollView();
-            this.createFrame();
-            this.createText();
-            this.createTouchWrapper();
-
+            for (const [schemaType, componentClass] of Object.entries(APLComponentRegistry)) {
+                this.create(`APL${schemaType}`, componentClass.tag);
+            }
         });
     }
 
@@ -45,33 +40,5 @@ class APLPalette {
         component.setAttribute('tag', tag);
         this.palette.addComponent(component);
         return component;
-    }
-
-    createContainer() {
-        return this.create('APLContainer', APLContainerComponent.tag);
-    }
-
-    createEditText() {
-        return this.create('APLEditText', APLEditTextComponent.tag);
-    }
-
-    createFrame() {
-        return this.create('APLFrame', APLFrameComponent.tag);
-    }
-
-    createImage() {
-        return this.create('APLImage', APLImageComponent.tag);
-    }
-
-    createScrollView() {
-        return this.create('APLScrollView', APLScrollViewComponent.tag);
-    }
-
-    createText() {
-        return this.create('APLText', APLTextComponent.tag);
-    }
-
-    createTouchWrapper() {
-        return this.create('APLTouchWrapper', APLTouchWrapperComponent.tag);
     }
 }

@@ -76,3 +76,4 @@ class APLContainerComponent extends APLMultiChildComponent {
 }
 
 customElements.define(APLContainerComponent.tag, APLContainerComponent);
+registerAPLComponent('Container', APLContainerComponent);

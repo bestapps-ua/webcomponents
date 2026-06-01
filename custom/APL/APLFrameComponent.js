@@ -55,3 +55,4 @@ class APLFrameComponent extends APLComponent {
 }
 
 customElements.define(APLFrameComponent.tag, APLFrameComponent);
+registerAPLComponent('Frame', APLFrameComponent);

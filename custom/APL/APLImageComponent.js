@@ -67,3 +67,4 @@ class APLImageComponent extends APLComponent {
 }
 
 customElements.define(APLImageComponent.tag, APLImageComponent);
+registerAPLComponent('Image', APLImageComponent);

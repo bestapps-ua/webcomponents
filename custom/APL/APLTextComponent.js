@@ -95,3 +95,4 @@ class APLTextComponent extends APLComponent {
 }
 
 customElements.define(APLTextComponent.tag, APLTextComponent);
+registerAPLComponent('Text', APLTextComponent);

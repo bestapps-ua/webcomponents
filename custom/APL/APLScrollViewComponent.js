@@ -24,3 +24,4 @@ class APLScrollViewComponent extends APLActionableComponent {
 }
 
 customElements.define(APLScrollViewComponent.tag, APLScrollViewComponent);
+registerAPLComponent('ScrollView', APLScrollViewComponent);

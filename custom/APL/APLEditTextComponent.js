@@ -48,3 +48,4 @@ class APLEditTextComponent extends APLActionableComponent {
 }
 
 customElements.define(APLEditTextComponent.tag, APLEditTextComponent);
+registerAPLComponent('EditText', APLEditTextComponent);

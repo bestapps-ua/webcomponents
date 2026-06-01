@@ -398,7 +398,7 @@ Phase 3 (LOW - Skill corrections):
 | 1.6 | APLDialogs missing Escape key handler               | done    | 2026-06-01 | pending-commit |
 | 2.1 | APLLoader global scheme variable dependency         | done    | 2026-06-01 | pending-commit |
 | 2.2 | APLLoader script tag leak on refresh                | done    | 2026-06-01 | pending-commit |
-| 2.3 | APLLoader + APLPalette no dynamic registration      | pending |      |         |
+| 2.3 | APLLoader + APLPalette no dynamic registration      | done    | 2026-06-01 | pending-commit |
 | 2.4 | APLFactory hardcoded component type names            | pending |      |         |
 | 2.5 | PropertyAdaptor deep coupling chain                 | done    | 2026-06-01 | pending-commit |
 | 2.6 | APLProperties fragile onCSSSet iteration guard      | done    | 2026-06-01 | pending-commit |
