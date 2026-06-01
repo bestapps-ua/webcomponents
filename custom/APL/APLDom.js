@@ -178,6 +178,7 @@ class APLDom {
     }
 
     getAPlDocumentLastChain(chains, items) {
+        chains = chains.slice();
         let childItems = items[chains[0].index];
         if (chains.length === 1) {
             return childItems;

@@ -586,7 +586,7 @@ Phase 4 (LOW - Quality):
 | 1.2 | SendEventCommand.components wrong return          | done    | 2026-06-01 | pending-commit |
 | 1.3 | PropertyArrayComponent.getFieldValue returns zzz  | done    | 2026-06-01 | pending-commit |
 | 1.4 | processEvents double-execution                    | done    | 2026-06-01 | pending-commit |
-| 1.5 | APLDom.getAPlDocumentLastChain mutates array       | pending |      |         |
+| 1.5 | APLDom.getAPlDocumentLastChain mutates array       | done    | 2026-06-01 | pending-commit |
 | 1.6 | AppYearMonth click-outside wrong selector          | pending |      |         |
 | 2.1 | XSS via innerHTML in APLFactory                   | pending |      |         |
 | 2.2 | Dialog innerHTML injection                        | pending |      |         |
