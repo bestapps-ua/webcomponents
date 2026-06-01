@@ -68,5 +68,4 @@ Each node in the tree:
 - No tree validation or consistency checks
 
 ## Issues
-- **No cleanup**: Removed nodes' component references are not nulled, preventing garbage collection
 - **Inconsistent child access**: Some methods use `item.items`, others check `item.items || item.item` - this mirrors APL JSON's ambiguity but is error-prone

@@ -53,6 +53,8 @@ class APLDom {
         }
         items.splice(item.index, 1);
         this.refreshIndexes(items);
+        item.parent = null;
+        item.component = null;
     }
 
     getItems() {
