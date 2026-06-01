@@ -21,6 +21,7 @@ class APLLoader {
         this.container = this.data.container;
         this.factory = this.data.factory;
         this.dom = this.data.dom;
+        this.schemeVar = this.data.schemeVar || 'scheme';
     }
 
     setDom(aplDom) {
@@ -90,7 +91,11 @@ class APLLoader {
     }
 
     async getLocalJSON(jsonUrl) {
+        if (this._schemaScript) {
+            this._schemaScript.remove();
+        }
         let jsonScript = document.createElement('script');
+        this._schemaScript = jsonScript;
         jsonScript.type = 'text/javascript';
         jsonScript.src = jsonUrl;
         jsonScript.id = `schema_${Date.now()}`;
@@ -98,7 +103,7 @@ class APLLoader {
 
         return new Promise((resolve, reject) => {
             jsonScript.onload = async () => {
-                this.scheme = scheme;
+                this.scheme = window[this.schemeVar];
                 this.dom.setAplDocument(this.scheme);
                 await this.loadComponents();
                 resolve();
