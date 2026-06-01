@@ -122,7 +122,6 @@ class BestAppsComponent extends HTMLElement {
     initData(options) {
         this._data = {
             options: Object.assign({}, this.getDefaultOptions(), options),
-            subscriptions: new Map(),
         };
         return this._data;
     }
