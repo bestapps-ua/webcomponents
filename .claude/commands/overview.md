@@ -91,7 +91,6 @@ custom/
 - No package manager usage (empty `package.json`)
 
 ## Known Issues
-- `BestAppsObjectInspectorPropertyArrayComponent.getFieldValue()` has unreachable code after `return 'zzz'`
 - Tooltip color set to `'fff'` instead of `'#fff'` in PropertyComponent
 - `processEvents()` in ObjectInspectorObjectsComponent iterates `len * len` times (nested loop bug)
 - No error handling for missing vendor scripts or broken schema files

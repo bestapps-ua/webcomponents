@@ -76,27 +76,7 @@ class BestAppsObjectInspectorPropertyArrayComponent extends BestAppsObjectInspec
     }
 
     getFieldValue() {
-        let key = this.fieldEl.value;
-        console.log('hhh');
-        return 'zzz';
-        //TODO: return array ?
-        return key;
-        if (this.items.includes(key)) {
-            return key;
-        }
-        let item = this.items.find((item) => {
-            if (typeof item !== 'object') {
-                return;
-            }
-            let keys = Object.keys(item);
-            if (keys[0] === key) {
-                return item;
-            }
-        });
-        if (item) {
-            let keys = Object.keys(item);
-            return item[keys[0]];
-        }
+        return this.value;
     }
 
     getStyle() {
