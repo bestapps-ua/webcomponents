@@ -591,7 +591,7 @@ Phase 4 (LOW - Quality):
 | 2.1 | XSS via innerHTML in APLFactory                   | done    | 2026-06-01 | pending-commit |
 | 2.2 | Dialog innerHTML injection                        | done    | 2026-06-01 | pending-commit |
 | 3.1 | Tooltip color missing # prefix                    | done    | 2026-06-01 | pending-commit |
-| 3.2 | APLText onCSSSet doesn't chain parent              | pending |      |         |
+| 3.2 | APLText onCSSSet doesn't chain parent              | done    | 2026-06-01 | pending-commit |
 | 3.3 | connectedCallback async Promise anti-pattern       | pending |      |         |
 | 3.4 | setOption doesn't fire EVENT_OPTIONS_SET            | pending |      |         |
 | 3.5 | Vendor script ID collision                         | pending |      |         |

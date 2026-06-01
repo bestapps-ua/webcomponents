@@ -73,7 +73,9 @@ class APLTextComponent extends APLComponent {
         });
         properties = Object.assign(APLProperties.getContainerProperties(), properties);
         properties = Object.assign(APLProperties.getAlignmentAndPositioningProperties(), properties);
+        let onCSSSet = properties.onCSSSet;
         properties.onCSSSet = () => {
+            if (onCSSSet) onCSSSet();
             let data = this.getAPLData();
             let screen = this.getFactory().getScreen();
             let div = this.element.wrapper.querySelector('div');

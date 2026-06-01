@@ -54,8 +54,6 @@ component.element.wrapper.innerHTML = `<div>${data.text}</div>`;
 - Text content set externally by factory via textContent, not by the component
 - `auto` height calculation assumes single-line text (uses fontSize as height)
 - No rich text / HTML rendering support (APL supports limited HTML in text)
-- `onCSSSet` doesn't call parent's `onCSSSet` - it completely replaces it, losing the base absolute positioning logic
 
 ## Issues
-- **`onCSSSet` doesn't chain**: Unlike Frame and TouchWrapper, Text's `onCSSSet` is set directly as `properties.onCSSSet = () => {...}` without saving and calling the parent version. This means the base APLComponent's absolute positioning logic in `onCSSSet` is lost
 - **Dead CSS properties**: Over half the typography properties are defined but never mapped to CSS
