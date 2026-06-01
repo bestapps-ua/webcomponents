@@ -38,12 +38,13 @@ class AppYearMonthComponent extends BestAppsComponent {
 
         });
 
-        window.addEventListener('mouseup', (event) => {
+        this._mouseUpHandler = (event) => {
             if (!(event.target.closest("ba-app-year-month-component"))) {
                 this.yearSelector.hide();
                 this.monthSelector.hide();
             }
-        });
+        };
+        window.addEventListener('mouseup', this._mouseUpHandler);
 
         this.element.wrapper.appendChild(this.input);
         this.element.wrapper.appendChild(this.yearSelector);
@@ -93,6 +94,10 @@ class AppYearMonthComponent extends BestAppsComponent {
 
     getMonth() {
         return this.month;
+    }
+
+    async processDisconnected() {
+        window.removeEventListener('mouseup', this._mouseUpHandler);
     }
 
 }

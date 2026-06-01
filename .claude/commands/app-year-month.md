@@ -45,10 +45,8 @@ Describe the `AppYearMonthComponent` date picker based on the following analysis
 - Custom element tags for sub-components don't follow the `ba-` prefix convention (`year-month-select-year-component`)
 - `year` attribute parsed with `* 1` instead of `parseInt()` or `Number()` - fragile coercion
 - Fixed-position popup doesn't account for viewport boundaries (can overflow off-screen)
-- `window.addEventListener('mouseup')` on every instance - no cleanup, potential leak with many instances
 - Month names are hardcoded as 3-letter English abbreviations (no i18n)
 - No keyboard navigation support
 
 ## Issues
-- **Event listener leak**: `window.addEventListener('mouseup')` is added per instance and never removed on disconnect
 - **Year range navigation**: `<` button sets `[yearStart - 8, yearStart + 1]` and `>` sets `[yearEnd - 1, yearEnd + 8]` - range sizes change from 10 to 9 items on navigation
