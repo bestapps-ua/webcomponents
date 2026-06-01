@@ -11,6 +11,16 @@ class APLScrollViewComponent extends APLActionableComponent {
         });
         return properties;
     }
+
+    getStyle() {
+        let style = super.getStyle();
+        style += `
+            .wrapper {
+                overflow: auto;
+            }
+        `;
+        return style;
+    }
 }
 
 customElements.define(APLScrollViewComponent.tag, APLScrollViewComponent);
