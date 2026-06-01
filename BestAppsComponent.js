@@ -56,8 +56,8 @@ class BestAppsPublishSubscribe {
             }
             i++;
         }
-        for (let i = toRemove.length - 1; i > 0; i--) {
-            this.events[event].splice(i, 1);
+        for (let i = toRemove.length - 1; i >= 0; i--) {
+            this.events[event].splice(toRemove[i], 1);
         }
         return true;
     }
