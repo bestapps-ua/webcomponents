@@ -154,10 +154,8 @@ class BestAppsObjectInspectorObjectsComponent extends BestAppsObjectInspectorCom
             return false;
         }
 
-        for (let i = 0; i < len; i++) {
-            for (const callback of this.eventList) {
-                callback();
-            }
+        for (const callback of this.eventList) {
+            callback();
         }
 
         this.eventList.splice(0, len);

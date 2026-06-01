@@ -92,6 +92,5 @@ custom/
 
 ## Known Issues
 - Tooltip color set to `'fff'` instead of `'#fff'` in PropertyComponent
-- `processEvents()` in ObjectInspectorObjectsComponent iterates `len * len` times (nested loop bug)
 - No error handling for missing vendor scripts or broken schema files
 - `localStorage` usage in APLObjectInspectorObjectsComponent is not namespaced
