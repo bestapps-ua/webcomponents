@@ -68,6 +68,13 @@ class APLDialogComponent extends APLComponent {
             e.stopPropagation();
         });
 
+        this._escHandler = (e) => {
+            if (e.key === 'Escape' && this.classList.contains('active')) {
+                this.hide();
+            }
+        };
+        document.addEventListener('keydown', this._escHandler);
+
         this.onAfterRefresh()
 
         await this.initContent();

@@ -62,5 +62,4 @@ this.dialog.onSuccess = () => { /* handle confirm */ };
 - `onAfterRefresh()` called in `initElements()` without `await` - timing issue
 
 ## Issues
-- **Fixed positioning in Shadow DOM**: `position: fixed` inside a Shadow DOM may not behave as expected if any ancestor has `transform`, `filter`, or `perspective` set. The dialog may not cover the full viewport
-- **Missing Escape key handler**: Unlike the inspector which listens for Escape, dialogs don't respond to keyboard dismissal
+- **Fixed positioning in Shadow DOM**: `position: fixed` inside a Shadow DOM may not behave as expected if any ancestor has `transform`, `filter`, or `perspective` set. This is a known browser limitation, not fixable in the component
