@@ -93,7 +93,7 @@ class APLLoader {
         let jsonScript = document.createElement('script');
         jsonScript.type = 'text/javascript';
         jsonScript.src = jsonUrl;
-        jsonScript.id = 'json_script';
+        jsonScript.id = `schema_${Date.now()}`;
         document.getElementsByTagName('head')[0].appendChild(jsonScript);
 
         return new Promise((resolve, reject) => {

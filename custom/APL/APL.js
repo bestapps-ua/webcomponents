@@ -232,7 +232,7 @@ class APL {
             let jsonScript = document.createElement('script');
             jsonScript.type = 'text/javascript';
             jsonScript.src = data.js;
-            jsonScript.id = 'json_script';
+            jsonScript.id = `vendor_${data.name.replace(/\s+/g, '_')}`;
             document.getElementsByTagName('head')[0].appendChild(jsonScript);
             jsonScript.onload = async () => {
                 resolve();
