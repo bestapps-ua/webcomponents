@@ -1,0 +1,164 @@
+<html>
+<head>
+    <style>
+        #container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        #palette {
+            width: 150px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        #inspector {
+            width: 300px;
+            height: 500px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        #document {
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        #screen {
+            height: 25px;
+        }
+    </style>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous">
+    </script>
+    <script src="BestAppsComponent.js"></script>
+    <script src="custom/AppYearMonthComponent.js"></script>
+    <script src="custom/ObjectInspector/BestAppsObjectInspectorComponent.js"></script>
+    <script src="custom/ObjectInspector/BestAppsObjectInspectorObjectsComponent.js"></script>
+    <script src="custom/ObjectInspector/tab/BestAppsObjectInspectorTabsComponent.js"></script>
+    <script src="custom/ObjectInspector/tab/BestAppsObjectInspectorTabComponent.js"></script>
+    <script src="custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertiesTabComponent.js"></script>
+    <script src="custom/ObjectInspector/tab/Event/BestAppsObjectInspectorEventsTabComponent.js"></script>
+    <script src="custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyComponent.js"></script>
+    <script src="custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyInputComponent.js"></script>
+    <script src="custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyListComponent.js"></script>
+    <script src="custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyArrayComponent.js"></script>
+    <script src="custom/ObjectInspector/BestAppsPropertyAdaptor.js"></script>
+    <script src="custom/ObjectPalette/BestAppsObjectPaletteComponent.js"></script>
+    <script src="custom/APL/ObjectInspector/APLObjectInspectorObjectsComponent.js"></script>
+    <script src="custom/APL/ObjectInspector/tab/APLObjectInspectorEventsTabComponent.js"></script>
+    <script src="custom/APL/ObjectInspector/tab/APLObjectInspectorDataTabComponent.js"></script>
+    <script src="custom/APL/ObjectInspector/tab/property/APLObjectInspectorPropertyCommandComponent.js"></script>
+    <script src="custom/APL/ObjectInspector/tab/property/APLCommandPropertiesComponent.js"></script>
+
+    <script src="custom/APL/APL.js"></script>
+    <script src="custom/APL/APLDom.js"></script>
+    <script src="custom/APL/APLScreen.js"></script>
+    <script src="custom/APL/APLFactory.js"></script>
+    <script src="custom/APL/APLPalette.js"></script>
+    <script src="custom/APL/APLComponent.js"></script>
+    <script src="custom/APL/APLFrameComponent.js"></script>
+    <script src="custom/APL/APLImageComponent.js"></script>
+    <script src="custom/APL/APLTextComponent.js"></script>
+    <script src="custom/APL/APLActionableComponent.js"></script>
+    <script src="custom/APL/APLTouchableComponent.js"></script>
+    <script src="custom/APL/APLDocumentComponent.js"></script>
+    <script src="custom/APL/APLMultiChildComponent.js"></script>
+    <script src="custom/APL/APLContainerComponent.js"></script>
+    <script src="custom/APL/APLTouchWrapperComponent.js"></script>
+    <script src="custom/APL/APLScrollViewComponent.js"></script>
+    <script src="custom/APL/APLEditTextComponent.js"></script>
+    <script src="custom/APL/APLScreenComponent.js"></script>
+    <script src="custom/APL/ObjectInspector/command/APLCommand.js"></script>
+    <script src="custom/APL/ObjectInspector/command/APLSetValueCommand.js"></script>
+    <script src="custom/APL/ObjectInspector/command/APLSendEventCommand.js"></script>
+
+
+    <script src="custom/APL/APLLoader.js"></script>
+    <script src="custom/APL/APLProperties.js"></script>
+    <script src="custom/APL/APLEvents.js"></script>
+
+    <script src="custom/APL/Dialogs/APLDialogComponent.js"></script>
+    <script src="custom/APL/Dialogs/APLConfirmDialogComponent.js"></script>
+</head>
+<body>
+<div id="container">
+    <div id="palette"></div>
+    <div id="inspector"></div>
+    <div>
+        <div id="screen"></div>
+        <div id="document"></div>
+    </div>
+
+</div>
+<script>
+
+    window.addEventListener('load', function () {
+        window.apl = new APL({
+            vendors: [
+                {
+                    name: 'Treeselect JS',
+                    description: 'https://github.com/dipson88/treeselectjs',
+                    js: './custom/APL/vendor/treeselectjs/treeselect.js',
+                    css: './custom/APL/vendor/treeselectjs/treeselect.css'
+                },
+                {
+                    name: 'jsoneditor',
+                    description: 'https://github.com/josdejong/jsoneditor',
+                    js: './custom/APL/vendor/jsoneditor/jsoneditor.js',
+                    css: './custom/APL/vendor/jsoneditor/jsoneditor.css'
+                }
+
+            ]
+        });
+
+        let customElement = document.createElement('div');
+        customElement.innerHTML = 'Test';
+        customElement.setAttribute('guid', '123');
+        customElement.style.backgroundColor = 'red';
+        customElement.setAttribute('name', `Custom`);
+        customElement.setAttribute('type', `Div`);
+        document.getElementById('container').appendChild(customElement);
+
+        let from = document.createElement(AppYearMonthComponent.tag);
+        from.subscribe(BestAppsComponent.EVENT_CHANGED, (data) => {
+            console.log('CHANGED FROM', data);
+        });
+        from.setAttribute('id', `from`);
+        from.setAttribute('year', `2024`);
+        from.setAttribute('month', `May`);
+        from.setAttribute('name', `From1`);
+        from.setAttribute('type', `Calendar`);
+
+        document.getElementById('container').appendChild(from);
+        let to = document.createElement(AppYearMonthComponent.tag);
+        to.subscribe(BestAppsComponent.EVENT_CHANGED, (data) => {
+            console.log('CHANGED TO', data);
+        });
+        to.setAttribute('year', `2023`);
+        to.setAttribute('month', `Jan`);
+        to.setAttribute('name', `To1`);
+        to.setAttribute('type', `Calendar`);
+        document.getElementById('container').appendChild(to);
+
+
+        //TODO: set active component options if smt changing
+        setTimeout(() => {
+            let el = document.getElementById('from').cloneNode(true);
+            el.setAttribute('id', `from2`);
+            document.getElementById('container').appendChild(el);
+            let el2 = $('#from').clone(true, true);
+            $('#container').append(el2);
+            el2.attr('debug', 'debug');
+        }, 1);
+    });
+
+</script>
+</body>
+</html>
