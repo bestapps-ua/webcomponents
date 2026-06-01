@@ -597,7 +597,7 @@ Phase 4 (LOW - Quality):
 | 3.5 | Vendor script ID collision                         | done    | 2026-06-01 | pending-commit |
 | 3.6 | APLDocument overrides parent style entirely         | done    | 2026-06-01 | pending-commit |
 | 3.7 | APLContainer missing position properties            | done    | 2026-06-01 | pending-commit |
-| 3.8 | localStorage key not namespaced                    | pending |      |         |
+| 3.8 | localStorage key not namespaced                    | done    | 2026-06-01 | pending-commit |
 | 3.9 | AppYearMonth leaks window event listeners           | pending |      |         |
 | 4.1 | Duplicate generateUid in APLCommand                 | pending |      |         |
 | 4.2 | Dead _data.subscriptions Map                        | pending |      |         |

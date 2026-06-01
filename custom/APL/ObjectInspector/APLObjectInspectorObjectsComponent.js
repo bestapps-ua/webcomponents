@@ -74,7 +74,7 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
     addComponent(component) {
 
         super.addComponent(component);
-        let name = localStorage.getItem(`${APLObjectInspectorObjectsComponent.tag}.component`);
+        let name = localStorage.getItem(`${APLObjectInspectorObjectsComponent.tag}.${window.location.pathname}.component`);
         let currentComponent = this.findComponentByName(name);
         if (currentComponent) {
             this.sendChanged(BestAppsObjectInspectorObjectsComponent.EVENT_CHANGED_COMPONENT, {toComponent: currentComponent});
@@ -94,7 +94,7 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
             if (this.component !== component) {
                 await this.sendChanged(BestAppsObjectInspectorObjectsComponent.EVENT_CHANGED_COMPONENT, {toComponent: component});
                 let name = component.getAttribute(this.options.nameAttribute);
-                localStorage.setItem(`${APLObjectInspectorObjectsComponent.tag}.component`, name);
+                localStorage.setItem(`${APLObjectInspectorObjectsComponent.tag}.${window.location.pathname}.component`, name);
             }
             this.selectComponent(component);
         });
