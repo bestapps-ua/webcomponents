@@ -103,39 +103,38 @@ class APLComponent extends BestAppsComponent {
             }
         },
 
-        onCSSSet: () => {
-            let data = this.getAPLData();
-            let parent = this.parentElement;
-            let position = this.style.position;
-            let ml = this.style.marginLeft;
-            let mr = this.style.marginRight;
-            let mt = this.style.marginTop;
-            let mb = this.style.marginBottom;
-            let w = parent?.offsetWidth;
-            let h = parent?.offsetHeight;
-            this.style.maxWidth = `calc(${w}px - ${ml} - ${mr})`;
-            this.style.maxHeight = `calc(${h}px - ${mb} - ${mt})`;
-
-            if (data.position === 'absolute') {
-                let screen = this.getFactory().getScreen();
-                let d = parent?.getBoundingClientRect();
-                if (parseFloat(data.left) > 0) {
-                    this.style['left'] = screen.getSizePixels(data.left, parent?.offsetWidth);
-                }
-                if (parseFloat(data.top) > 0) {
-                    this.style['top'] = screen.getSizePixels(data.top, parent?.offsetHeight);
-                }
-                if (parseFloat(data.right) > 0) {
-                    this.style['right'] = screen.getSizePixels(data.right, parent?.offsetWidth);
-                }
-                if (parseFloat(data.bottom) > 0) {
-                    this.style['bottom'] = screen.getSizePixels(data.bottom, parent?.offsetHeight);
-                }
-            }
-        },
     }
 
     APLEvents = {};
+
+    onCSSSet() {
+        let data = this.getAPLData();
+        let parent = this.parentElement;
+        let ml = this.style.marginLeft;
+        let mr = this.style.marginRight;
+        let mt = this.style.marginTop;
+        let mb = this.style.marginBottom;
+        let w = parent?.offsetWidth;
+        let h = parent?.offsetHeight;
+        this.style.maxWidth = `calc(${w}px - ${ml} - ${mr})`;
+        this.style.maxHeight = `calc(${h}px - ${mb} - ${mt})`;
+
+        if (data.position === 'absolute') {
+            let screen = this.getFactory().getScreen();
+            if (parseFloat(data.left) > 0) {
+                this.style['left'] = screen.getSizePixels(data.left, parent?.offsetWidth);
+            }
+            if (parseFloat(data.top) > 0) {
+                this.style['top'] = screen.getSizePixels(data.top, parent?.offsetHeight);
+            }
+            if (parseFloat(data.right) > 0) {
+                this.style['right'] = screen.getSizePixels(data.right, parent?.offsetWidth);
+            }
+            if (parseFloat(data.bottom) > 0) {
+                this.style['bottom'] = screen.getSizePixels(data.bottom, parent?.offsetHeight);
+            }
+        }
+    }
 
     getAPLProperties() {
         return this.APLProperties;

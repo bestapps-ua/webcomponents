@@ -45,38 +45,24 @@ class APLImageComponent extends APLComponent {
         });
         properties = Object.assign(APLProperties.getContainerProperties(), properties);
         properties = Object.assign(APLProperties.getAlignmentAndPositioningProperties(), properties);
-        let onCSSSet =  properties.onCSSSet;
-        properties.onCSSSet = () => {
-            if(onCSSSet) {
-                onCSSSet();
-            }
-            let data = this.getAPLData();
-            let scale = data.scale;
-            let image = this.element.wrapper.querySelector('img');
-            switch(scale) {
-                case 'fill':
-                    image.style.objectFit = 'fill';
-                    break;
-                case 'best-fill':
-                    image.style.objectFit = 'cover';
-                    break;
-                case 'best-fit':
-                    image.style.objectFit = 'contain';
-                    break;
-                case 'best-fit-down':
-                    image.style.objectFit = 'scale-down';
-                    break;
-                case 'none':
-                    image.style.objectFit = 'none';
-                    break;
-            }
-        };
         return properties;
+    }
+
+    onCSSSet() {
+        super.onCSSSet();
+        let data = this.getAPLData();
+        let scale = data.scale;
+        let image = this.element.wrapper.querySelector('img');
+        if (!image) return;
+        const scaleMap = {
+            'fill': 'fill', 'best-fill': 'cover', 'best-fit': 'contain',
+            'best-fit-down': 'scale-down', 'none': 'none',
+        };
+        if (scaleMap[scale]) image.style.objectFit = scaleMap[scale];
     }
 
     async initElements() {
         await super.initElements();
-
     }
 }
 

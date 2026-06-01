@@ -401,7 +401,7 @@ Phase 3 (LOW - Skill corrections):
 | 2.3 | APLLoader + APLPalette no dynamic registration      | pending |      |         |
 | 2.4 | APLFactory hardcoded component type names            | pending |      |         |
 | 2.5 | PropertyAdaptor deep coupling chain                 | done    | 2026-06-01 | pending-commit |
-| 2.6 | APLProperties fragile onCSSSet iteration guard      | pending |      |         |
+| 2.6 | APLProperties fragile onCSSSet iteration guard      | done    | 2026-06-01 | pending-commit |
 | 2.7 | JSONEditor icons broken in Shadow DOM               | done    | 2026-06-01 | pending-commit |
 | 3.1 | Skill correction: onCSSSet this binding is correct  | done    | 2026-06-01 | pending-commit |
 | 3.2 | Skill correction: global dispatch is intentional    | done    | 2026-06-01 | pending-commit |

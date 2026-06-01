@@ -58,4 +58,4 @@ Reads all event definitions from `component.getAPLEvents()`, resolves values fro
 - APLEvents.encode is nearly unused - events are managed through the command system instead
 
 ## Issues
-- **`onCSSSet` iteration guard**: Both `encode` (calls `properties.onCSSSet()`) and `decode` (skips `key === 'onCSSSet'`) have special handling for the function property mixed into the properties object. This is fragile - if the key name changes, both would break
+- None currently tracked

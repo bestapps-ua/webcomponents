@@ -36,24 +36,21 @@ class APLFrameComponent extends APLComponent {
 
         properties = Object.assign(APLProperties.getContainerProperties(), properties);
         properties = Object.assign(APLProperties.getAlignmentAndPositioningProperties(), properties);
-        let onCSSSet =  properties.onCSSSet;
-        properties.onCSSSet = () => {
-            if(onCSSSet) {
-                onCSSSet();
-            }
-            let data = this.getAPLData();
-            let borderWidth = data.borderWidth;
-            if (borderWidth) {
-                let bw = this.getFactory()?.getScreen()?.getSizePixels(borderWidth) || borderWidth;
-                if (!isNaN(parseFloat(bw)) && !`${bw}`.includes('px')) {
-                    bw = `${parseFloat(bw)}px`;
-                }
-                this.style.borderWidth = bw;
-                this.style.borderStyle = 'solid';
-            }
-        };
-
         return properties;
+    }
+
+    onCSSSet() {
+        super.onCSSSet();
+        let data = this.getAPLData();
+        let borderWidth = data.borderWidth;
+        if (borderWidth) {
+            let bw = this.getFactory()?.getScreen()?.getSizePixels(borderWidth) || borderWidth;
+            if (!isNaN(parseFloat(bw)) && !`${bw}`.includes('px')) {
+                bw = `${parseFloat(bw)}px`;
+            }
+            this.style.borderWidth = bw;
+            this.style.borderStyle = 'solid';
+        }
     }
 }
 

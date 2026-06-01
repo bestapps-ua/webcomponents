@@ -73,31 +73,24 @@ class APLTextComponent extends APLComponent {
         });
         properties = Object.assign(APLProperties.getContainerProperties(), properties);
         properties = Object.assign(APLProperties.getAlignmentAndPositioningProperties(), properties);
-        let onCSSSet = properties.onCSSSet;
-        properties.onCSSSet = () => {
-            if (onCSSSet) onCSSSet();
-            let data = this.getAPLData();
-            let screen = this.getFactory().getScreen();
-            let div = this.element.wrapper.querySelector('div');
-            if(data.height === 'auto') {
-                let fontSize = data.fontSize;
-                if(fontSize.includes('dp')) {
-                    fontSize = parseFloat(fontSize) * screen.getDPSize();
-                }else{
-                    fontSize = parseFloat(fontSize);
-                }
-                div.style.height = `${fontSize}px`;
-                //this.element.wrapper.style.height = `${fontSize}px`;
-                //this.element.wrapper.style.flexDirection = `row`;
-                //this.element.wrapper.style.alignItems = `center`;
-                this.style.maxHeight = `${fontSize}px`;
-            }
-
-            if(data.width === 'auto') {
-                //this.element.wrapper.style.width = `${data.text.length}ch`;
-            }
-        }
         return properties;
+    }
+
+    onCSSSet() {
+        super.onCSSSet();
+        let data = this.getAPLData();
+        let screen = this.getFactory().getScreen();
+        let div = this.element.wrapper.querySelector('div');
+        if (data.height === 'auto' && div) {
+            let fontSize = data.fontSize;
+            if (fontSize.includes('dp')) {
+                fontSize = parseFloat(fontSize) * screen.getDPSize();
+            } else {
+                fontSize = parseFloat(fontSize);
+            }
+            div.style.height = `${fontSize}px`;
+            this.style.maxHeight = `${fontSize}px`;
+        }
     }
 }
 

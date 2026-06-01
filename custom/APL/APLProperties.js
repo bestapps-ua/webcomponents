@@ -52,8 +52,8 @@ class APLProperties {
             }
         }
 
-        if (properties.onCSSSet) {
-            properties.onCSSSet();
+        if (component.onCSSSet) {
+            component.onCSSSet();
         }
     }
 
@@ -68,9 +68,6 @@ class APLProperties {
         try {
 
             for (const key in properties) {
-                if (key === 'onCSSSet') {
-                    continue;
-                }
                 let property = properties[key];
                 try {
                     const apl = property.options?.apl;
