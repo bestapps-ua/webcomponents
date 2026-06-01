@@ -64,4 +64,4 @@ Fires `EVENT_ACTION_CLOSE` and `EVENT_ACTION_SAVE` events.
 - JSONEditor icons use hardcoded relative paths to `./custom/APL/vendor/jsoneditor/img/` which won't work in the shadow DOM
 
 ## Issues
-- **JSONEditor icons broken in Shadow DOM**: CSS references `url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg")` but shadow DOM changes the base URL context. Icons may not load
+- None currently tracked

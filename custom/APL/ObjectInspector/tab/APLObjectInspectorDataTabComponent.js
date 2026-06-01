@@ -246,7 +246,7 @@ class APLObjectInspectorDataTabComponent extends BestAppsObjectInspectorProperti
   height: 24px;
   padding: 0;
   margin: 0 4px 0 0;
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   background-position: 0 -72px;
 }
 
@@ -259,7 +259,7 @@ class APLObjectInspectorDataTabComponent extends BestAppsObjectInspectorProperti
   border: none;
   padding: 0;
   margin: 0;
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
 }
 
 .jsoneditor-contextmenu .jsoneditor-text {
@@ -781,7 +781,7 @@ div.jsoneditor-tree button.jsoneditor-button {
   border: none;
   cursor: pointer;
   background-color: transparent;
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
 }
 
 div.jsoneditor-tree button.jsoneditor-button:focus {
@@ -807,7 +807,7 @@ div.jsoneditor-tree button.jsoneditor-invisible {
 }
 
 div.jsoneditor-tree button.jsoneditor-dragarea {
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   background-position: -72px -72px;
   cursor: move;
 }
@@ -870,7 +870,7 @@ div.jsoneditor-tree .jsoneditor-button.jsoneditor-schema-error {
   height: 24px;
   padding: 0;
   margin: 0 4px 0 0;
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   background-position: -168px -48px;
   background-color: transparent;
 }
@@ -1227,13 +1227,13 @@ pre.jsoneditor-preview,
 }
 
 .jsoneditor-text-errors tr .jsoneditor-schema-error {
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   background-position: -168px -48px;
   background-color: transparent;
 }
 
 .jsoneditor-text-errors tr.parse-error .jsoneditor-schema-error {
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   background-position: -25px 0px;
   background-color: transparent;
 }
@@ -1298,7 +1298,7 @@ pre.jsoneditor-preview,
   border-radius: 2px;
   border: 1px solid transparent;
   background-color: transparent;
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   color: #ffffff;
   opacity: 0.8;
   font-family: arial, sans-serif;
@@ -1457,7 +1457,7 @@ pre.jsoneditor-preview,
   padding: 0;
   margin: 0;
   border: none;
-  background: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   vertical-align: top;
 }
 
@@ -1529,7 +1529,7 @@ pre.jsoneditor-preview,
   height: 24px;
   padding: 0;
   margin-top: 1px;
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   background-position: -168px -48px;
   cursor: pointer;
 }
@@ -1546,7 +1546,7 @@ pre.jsoneditor-preview,
   height: 24px;
   padding: 0;
   margin: 1px;
-  background-image: url("./custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
+  background-image: url("/custom/APL/vendor/jsoneditor/img/jsoneditor-icons.svg");
   background-position: -25px 0px;
 }
 
