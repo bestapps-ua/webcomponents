@@ -110,7 +110,7 @@ class APLDialogComponent extends APLComponent {
 
     async show(data = {}) {
         await this.loadedDefer.promise;
-        this.element.content.innerHTML = data.content || 'Dialog';
+        this.element.content.textContent = data.content || 'Dialog';
         this.classList.add('active');
 
     }
