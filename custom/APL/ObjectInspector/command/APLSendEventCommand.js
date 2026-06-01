@@ -37,7 +37,7 @@ class APLSendEventCommand extends APLCommand {
     }
 
     get components() {
-        return this.#arguments;
+        return this.#components;
     }
 
     set components(value) {

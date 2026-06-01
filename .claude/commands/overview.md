@@ -91,7 +91,6 @@ custom/
 - No package manager usage (empty `package.json`)
 
 ## Known Issues
-- `APLSendEventCommand.components` getter returns `this.#arguments` instead of `this.#components` (copy-paste bug)
 - `BestAppsObjectInspectorPropertyArrayComponent.getFieldValue()` has unreachable code after `return 'zzz'`
 - Tooltip color set to `'fff'` instead of `'#fff'` in PropertyComponent
 - `processEvents()` in ObjectInspectorObjectsComponent iterates `len * len` times (nested loop bug)
