@@ -60,4 +60,4 @@ When the device changes, the resolution dropdown refreshes. Both selectors fire 
 - `parseInt(item.id)` comparison in resolution change is fragile if IDs are non-numeric
 
 ## Issues
-- **MDN reference**: File header references `Window.devicePixelRatio` but the code doesn't use it - it calculates its own dp ratio from container dimensions
+- None currently tracked

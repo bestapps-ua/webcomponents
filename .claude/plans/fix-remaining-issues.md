@@ -403,12 +403,12 @@ Phase 3 (LOW - Skill corrections):
 | 2.5 | PropertyAdaptor deep coupling chain                 | pending |      |         |
 | 2.6 | APLProperties fragile onCSSSet iteration guard      | pending |      |         |
 | 2.7 | JSONEditor icons broken in Shadow DOM               | pending |      |         |
-| 3.1 | Skill correction: onCSSSet this binding is correct  | pending |      |         |
-| 3.2 | Skill correction: global dispatch is intentional    | pending |      |         |
-| 3.3 | Skill correction: APLScreen MDN header comment      | pending |      |         |
-| 3.4 | Skill correction: dialog fixed positioning caveat   | pending |      |         |
-| 3.5 | Skill correction: touchwrapper events are by design | pending |      |         |
-| 3.6 | Skill correction: no unnecessary registrations      | pending |      |         |
-| 3.7 | Skill correction: palette APL coupling comment      | pending |      |         |
+| 3.1 | Skill correction: onCSSSet this binding is correct  | done    | 2026-06-01 | pending-commit |
+| 3.2 | Skill correction: global dispatch is intentional    | done    | 2026-06-01 | pending-commit |
+| 3.3 | Skill correction: APLScreen MDN header comment      | done    | 2026-06-01 | pending-commit |
+| 3.4 | Skill correction: dialog fixed positioning caveat   | done    | 2026-06-01 | pending-commit |
+| 3.5 | Skill correction: touchwrapper events are by design | done    | 2026-06-01 | pending-commit |
+| 3.6 | Skill correction: no unnecessary registrations      | done    | 2026-06-01 | pending-commit |
+| 3.7 | Skill correction: palette APL coupling comment      | done    | 2026-06-01 | pending-commit |
 | 3.8 | APLProperties decode deep clone breaks functions    | pending |      |         |
-| 3.9 | Skill correction: year range is consistently 9      | pending |      |         |
+| 3.9 | Skill correction: year range is consistently 9      | done    | 2026-06-01 | pending-commit |

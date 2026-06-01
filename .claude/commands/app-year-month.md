@@ -49,4 +49,4 @@ Describe the `AppYearMonthComponent` date picker based on the following analysis
 - No keyboard navigation support
 
 ## Issues
-- **Year range navigation**: `<` button sets `[yearStart - 8, yearStart + 1]` and `>` sets `[yearEnd - 1, yearEnd + 8]` - range sizes change from 10 to 9 items on navigation
+- None currently tracked

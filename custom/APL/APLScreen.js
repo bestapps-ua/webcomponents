@@ -1,5 +1,5 @@
 /**
- * https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
+ * Manages Alexa device resolution and dp-to-pixel conversion.
  */
 class APLScreen {
     static EVENT_RESOLUTION_CHANGE = 'resolution::change';
