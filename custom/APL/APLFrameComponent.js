@@ -43,9 +43,13 @@ class APLFrameComponent extends APLComponent {
             }
             let data = this.getAPLData();
             let borderWidth = data.borderWidth;
-            if (borderWidth === `${parseFloat(borderWidth)}`) {
-                this.style.borderWidth = `${parseFloat(borderWidth)}px`;
-                this.style.borderStyle = `solid`;
+            if (borderWidth) {
+                let bw = this.getFactory()?.getScreen()?.getSizePixels(borderWidth) || borderWidth;
+                if (!isNaN(parseFloat(bw)) && !`${bw}`.includes('px')) {
+                    bw = `${parseFloat(bw)}px`;
+                }
+                this.style.borderWidth = bw;
+                this.style.borderStyle = 'solid';
             }
         };
 
