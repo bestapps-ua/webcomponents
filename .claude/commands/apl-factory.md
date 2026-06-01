@@ -60,4 +60,3 @@ Describe the APLFactory based on the following analysis.
 
 ## Issues
 - **Hardcoded component names**: `initComponent()` and `processElementAction()` hardcode APL type strings for dispatch logic instead of using component methods/interfaces
-- **Memory leak potential**: Components are added to `items` array but never removed (even after moves, old items remain since `cloneByDomItemsMove` creates new items but doesn't remove from the factory's items array)

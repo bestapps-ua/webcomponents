@@ -32,6 +32,11 @@ class APLFactory {
         this.items.push(component);
     }
 
+    removeItem(guid) {
+        const idx = this.items.findIndex(i => i.guid === guid);
+        if (idx !== -1) this.items.splice(idx, 1);
+    }
+
     setPalette(palette) {
         this.palette = palette;
     }
@@ -248,6 +253,7 @@ class APLFactory {
             let componentItem = this.getDom().findByGuid(guid);
             componentItem.parent.component.element.wrapper.removeChild(componentItem.component);
             this.getDom().removeByGuid(guid);
+            this.removeItem(guid);
         }
     }
 
