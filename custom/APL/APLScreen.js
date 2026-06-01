@@ -28,13 +28,16 @@ class APLScreen {
     }
 
     init() {
-        this.resizeHeight();
+        this.resize();
+    }
+
+    resize() {
+        let dppx = this.getDPSize();
+        this.container.style.height = `${this.resolution.height * dppx}px`;
     }
 
     resizeHeight() {
-        let dppx = this.getDPSize();
-        let h = this.resolution.height * dppx;
-        this.container.style.height = `${h}px`;
+        this.resize();
     }
 
     getSubscriptions(action) {

@@ -606,5 +606,5 @@ Phase 4 (LOW - Quality):
 | 4.5 | APLImage missing position properties                | done    | 2026-06-01 | pending-commit |
 | 4.6 | APLFactory items never cleaned up                   | done    | 2026-06-01 | pending-commit |
 | 4.7 | Tooltip leaks DOM to document.body                  | done    | 2026-06-01 | pending-commit |
-| 4.8 | APLScreen width not managed                         | pending |      |         |
+| 4.8 | APLScreen width not managed                         | done    | 2026-06-01 | pending-commit |
 | 4.9 | APLFrame borderWidth dimension handling              | pending |      |         |
