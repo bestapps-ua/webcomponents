@@ -68,4 +68,4 @@ Each node in the tree:
 - No tree validation or consistency checks
 
 ## Issues
-- **Inconsistent child access**: Some methods use `item.items`, others check `item.items || item.item` - this mirrors APL JSON's ambiguity but is error-prone
+- None currently tracked

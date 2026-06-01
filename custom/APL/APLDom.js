@@ -61,6 +61,10 @@ class APLDom {
         return this.items;
     }
 
+    getNodeChildren(node) {
+        return node.items || node.item || [];
+    }
+
     findByGuid(guid, items = undefined) {
         items = items || this.getItems();
         for (const item of items) {
@@ -106,14 +110,10 @@ class APLDom {
     }
 
     getChildrenFlatList(item) {
-        function getItems(i) {
-            return i.items || i.item || [];
-        }
-
         let list = [];
-        for (const child of getItems(item)) {
+        for (const child of this.getNodeChildren(item)) {
             list.push(child);
-            if (getItems(child).length > 0) {
+            if (this.getNodeChildren(child).length > 0) {
                 let childrens = this.getChildrenFlatList(child);
                 for (const c of childrens) {
                     list.push(c);
@@ -129,10 +129,6 @@ class APLDom {
     }
 
     getComponentDataByItem(item) {
-        function getItems(i) {
-            return i.items || i.item || [];
-        }
-
         let aplData;
         let parentChains = [];
         if (item.parent) {
@@ -141,7 +137,7 @@ class APLDom {
         } else {
             aplData = this.aplDocument.document.mainTemplate.items;
         }
-        let itemAPLData = getItems(aplData)[item.index];
+        let itemAPLData = this.getNodeChildren(aplData)[item.index];
         return {
             item,
             chains: parentChains,
