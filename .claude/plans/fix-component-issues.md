@@ -603,7 +603,7 @@ Phase 4 (LOW - Quality):
 | 4.2 | Dead _data.subscriptions Map                        | done    | 2026-06-01 | pending-commit |
 | 4.3 | APLScrollView non-functional stub                   | done    | 2026-06-01 | pending-commit |
 | 4.4 | APLEditText renders no input                        | done    | 2026-06-01 | pending-commit |
-| 4.5 | APLImage missing position properties                | pending |      |         |
+| 4.5 | APLImage missing position properties                | done    | 2026-06-01 | pending-commit |
 | 4.6 | APLFactory items never cleaned up                   | pending |      |         |
 | 4.7 | Tooltip leaks DOM to document.body                  | pending |      |         |
 | 4.8 | APLScreen width not managed                         | pending |      |         |

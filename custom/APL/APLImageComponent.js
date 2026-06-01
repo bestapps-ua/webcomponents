@@ -43,6 +43,8 @@ class APLImageComponent extends APLComponent {
                 }
             },
         });
+        properties = Object.assign(APLProperties.getContainerProperties(), properties);
+        properties = Object.assign(APLProperties.getAlignmentAndPositioningProperties(), properties);
         let onCSSSet =  properties.onCSSSet;
         properties.onCSSSet = () => {
             if(onCSSSet) {

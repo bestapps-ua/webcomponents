@@ -51,4 +51,4 @@ component.element.wrapper.innerHTML = `<img src="${data.source}" alt="" />`;
 - `align` maps to CSS `align` which is not a standard CSS property (should map to `object-position` or similar)
 
 ## Issues
-- **Missing position properties**: Unlike Frame and Text components, Image doesn't merge `getContainerProperties()` or `getAlignmentAndPositioningProperties()`
+- None currently tracked
