@@ -41,16 +41,15 @@ class APLObjectInspectorDataTabComponent extends BestAppsObjectInspectorProperti
 
     async initElements() {
         await super.initElements();
-        await this.loadJsonEditorCSS();
+        this.loadJsonEditorCSS();
         this.initJSONEditor();
     }
 
-    async loadJsonEditorCSS() {
-        const res = await fetch('/custom/APL/vendor/jsoneditor/jsoneditor.css');
-        const css = await res.text();
-        const sheet = new CSSStyleSheet();
-        sheet.replaceSync(css);
-        this.element.shadow.adoptedStyleSheets = [...this.element.shadow.adoptedStyleSheets, sheet];
+    loadJsonEditorCSS() {
+        const link = document.querySelector('link[href*="jsoneditor"]');
+        if (link) {
+            this.element.shadow.prepend(link.cloneNode());
+        }
     }
 
     getClassByProperty(property) {
