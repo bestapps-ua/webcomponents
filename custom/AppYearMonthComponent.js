@@ -39,7 +39,7 @@ class AppYearMonthComponent extends BestAppsComponent {
         });
 
         window.addEventListener('mouseup', (event) => {
-            if (!(event.target.closest("year-month-component"))) {
+            if (!(event.target.closest("ba-app-year-month-component"))) {
                 this.yearSelector.hide();
                 this.monthSelector.hide();
             }
