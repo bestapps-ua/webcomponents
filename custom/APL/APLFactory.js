@@ -213,15 +213,14 @@ class APLFactory {
         let isSameLevel = window.aplDom.isOnSameLevel(remove.item, moveTo.item);
         let component;
         let index = -1;
-        if (isSameLevel && level === 0) {
+        if (isSameLevel && level === 0 && moveTo.item.parent) {
             component = await this.clone(remove.item.component, moveTo.item.parent.component);
             index = moveTo.item.index;
         } else {
             component = await this.clone(remove.item.component, moveTo.item.component);
         }
 
-        if (isSameLevel && level === 0 && index !== -1) {
-            //TODO: moveto - get parent!
+        if (isSameLevel && level === 0 && index !== -1 && remove.item.parent) {
             let moveTo2 = this.getDom().getComponentDataByItem(remove.item.parent);
             this.getDom().moveAPLDataToParent(moveTo2, remove, component, index);
         } else {
@@ -242,7 +241,15 @@ class APLFactory {
                     isComponentSelectOpen: isOpen,
                 });
             }
-            this.getDom().getComponentDataByItem(moveTo.item.parent).aplData.item.items.splice(moveTo.item.index, 1);
+            if (moveTo.item.parent) {
+                let parentData = this.getDom().getComponentDataByItem(moveTo.item.parent);
+                if (parentData?.aplData?.item) {
+                    let children = parentData.aplData.item.items || parentData.aplData.item.item;
+                    if (Array.isArray(children)) {
+                        children.splice(moveTo.item.index, 1);
+                    }
+                }
+            }
         }
 
         return component;

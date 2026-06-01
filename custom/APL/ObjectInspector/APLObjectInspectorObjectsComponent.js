@@ -314,6 +314,7 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
     }
 
     onClose() {
+        if (this._isDragging) return;
         this.close();
     }
 
@@ -331,6 +332,7 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
         if (component.getAPLName() !== 'APLContainer1') {
             option.setAttribute('draggable', true)
             option.addEventListener("dragstart", (ev) => this.optionsDragStart(ev, option));
+            option.addEventListener("dragend", () => { this._isDragging = false; });
         }
         option.addEventListener('dragover', (ev) => this.optionsDragoverHandler(ev));
         option.addEventListener('drop', (ev) => this.optionDropHandler(ev, option));
@@ -338,6 +340,7 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
 
     optionsDragStart(ev, option) {
         ev.stopPropagation();
+        this._isDragging = true;
         ev.dataTransfer.setData("text/plain", this.generateOptionElementId(option));
     }
 
@@ -353,9 +356,8 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
     async optionDropHandler(ev, option) {
         ev.preventDefault();
         ev.stopPropagation();
+        this._isDragging = false;
         const type = this.getEventComponentType(ev);
-
-        console.log('DRAG END', 'FROM', type, 'TO', option.constructor.name, option.getAttribute('value'));
 
         if (type.dragType === 'OPTION') {
             let from = window.apl.aplDom.findByGuid(type.dragId);

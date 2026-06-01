@@ -139,7 +139,7 @@ class APLDom {
         } else {
             aplData = this.aplDocument.document.mainTemplate.items;
         }
-        let itemAPLData = this.getNodeChildren(aplData)[item.index];
+        let itemAPLData = Array.isArray(aplData) ? aplData[item.index] : this.getNodeChildren(aplData)[item.index];
         return {
             item,
             chains: parentChains,
