@@ -256,11 +256,16 @@ class APLFactory {
         component.setAttribute('draggable', 'true');
         let data = component.getAPLData();
         if (type === 'APLImage') {
-            component.element.wrapper.innerHTML = `<img src="${data.source}" alt="" />`;
+            const img = document.createElement('img');
+            img.src = data.source;
+            img.alt = '';
+            component.element.wrapper.replaceChildren(img);
         } else if (type === 'APLText') {
-            component.element.wrapper.innerHTML = `<div>${data.text}</div>`;
+            const div = document.createElement('div');
+            div.textContent = data.text;
+            component.element.wrapper.replaceChildren(div);
         } else {
-            component.element.wrapper.innerHTML = component.getAPLName();
+            component.element.wrapper.textContent = component.getAPLName();
         }
         this.onSelect(component);
     }

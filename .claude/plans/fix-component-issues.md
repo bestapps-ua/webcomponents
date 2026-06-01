@@ -588,7 +588,7 @@ Phase 4 (LOW - Quality):
 | 1.4 | processEvents double-execution                    | done    | 2026-06-01 | pending-commit |
 | 1.5 | APLDom.getAPlDocumentLastChain mutates array       | done    | 2026-06-01 | pending-commit |
 | 1.6 | AppYearMonth click-outside wrong selector          | done    | 2026-06-01 | pending-commit |
-| 2.1 | XSS via innerHTML in APLFactory                   | pending |      |         |
+| 2.1 | XSS via innerHTML in APLFactory                   | done    | 2026-06-01 | pending-commit |
 | 2.2 | Dialog innerHTML injection                        | pending |      |         |
 | 3.1 | Tooltip color missing # prefix                    | pending |      |         |
 | 3.2 | APLText onCSSSet doesn't chain parent              | pending |      |         |
