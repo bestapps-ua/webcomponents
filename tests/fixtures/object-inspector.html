@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>ObjectInspector Test</title></head>
+<body>
+<script src="/utils/uid.js"></script>
+<script src="/BestAppsComponent.js"></script>
+<script src="/custom/ObjectInspector/BestAppsObjectInspectorComponent.js"></script>
+<script src="/custom/ObjectInspector/BestAppsObjectInspectorObjectsComponent.js"></script>
+<script src="/custom/ObjectInspector/tab/BestAppsObjectInspectorTabsComponent.js"></script>
+<script src="/custom/ObjectInspector/tab/BestAppsObjectInspectorTabComponent.js"></script>
+<script src="/custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertiesTabComponent.js"></script>
+<script src="/custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyComponent.js"></script>
+<script src="/custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyInputComponent.js"></script>
+<script src="/custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyListComponent.js"></script>
+<script src="/custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyArrayComponent.js"></script>
+<script src="/custom/ObjectInspector/tab/Event/BestAppsObjectInspectorEventsTabComponent.js"></script>
+<script src="/custom/ObjectInspector/BestAppsPropertyAdaptor.js"></script>
+<div id="container" style="width:300px;height:500px;">
+    <ba-object-inspector-component id="inspector1"></ba-object-inspector-component>
+</div>
+<script>
+window.addEventListener('load', async () => {
+    const inspector = document.getElementById('inspector1');
+    await inspector.loadedDefer.promise;
+
+    const dummy1 = document.createElement('ba-component');
+    dummy1.setAttribute('name', 'Widget1');
+    dummy1.setAttribute('type', 'Button');
+    document.body.appendChild(dummy1);
+    await dummy1.loadedDefer.promise;
+
+    const dummy2 = document.createElement('ba-component');
+    dummy2.setAttribute('name', 'Widget2');
+    dummy2.setAttribute('type', 'Label');
+    document.body.appendChild(dummy2);
+    await dummy2.loadedDefer.promise;
+
+    const tabs = [
+        {
+            name: 'Properties',
+            class: BestAppsObjectInspectorPropertiesTabComponent,
+            options: {
+                properties: {
+                    color: { type: 'text', value: 'red' },
+                    size: { type: 'list', items: ['small', 'medium', 'large'], value: 'medium' },
+                },
+            },
+        },
+    ];
+
+    await inspector.update({ component: dummy1, tabs });
+    window._testReady = true;
+});
+</script>
+</body>
+</html>

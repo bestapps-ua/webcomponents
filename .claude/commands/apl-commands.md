@@ -67,4 +67,4 @@ Additional properties:
 - Private fields declared but setter/getter patterns are verbose - could use simpler patterns
 
 ## Issues
-- **UID duplication**: `generateUid()` is copy-pasted from `BestAppsComponent` - should be extracted to a shared utility
+- None currently tracked

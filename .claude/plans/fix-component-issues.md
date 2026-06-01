@@ -599,7 +599,7 @@ Phase 4 (LOW - Quality):
 | 3.7 | APLContainer missing position properties            | done    | 2026-06-01 | pending-commit |
 | 3.8 | localStorage key not namespaced                    | done    | 2026-06-01 | pending-commit |
 | 3.9 | AppYearMonth leaks window event listeners           | done    | 2026-06-01 | pending-commit |
-| 4.1 | Duplicate generateUid in APLCommand                 | pending |      |         |
+| 4.1 | Duplicate generateUid in APLCommand                 | done    | 2026-06-01 | pending-commit |
 | 4.2 | Dead _data.subscriptions Map                        | pending |      |         |
 | 4.3 | APLScrollView non-functional stub                   | pending |      |         |
 | 4.4 | APLEditText renders no input                        | pending |      |         |

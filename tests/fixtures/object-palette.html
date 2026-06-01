@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>ObjectPalette Test</title></head>
+<body>
+<script src="/utils/uid.js"></script>
+<script src="/BestAppsComponent.js"></script>
+<script src="/custom/ObjectPalette/BestAppsObjectPaletteComponent.js"></script>
+<div id="container" style="width:200px;">
+    <ba-object-palette-component id="palette1"></ba-object-palette-component>
+</div>
+<script>
+window.addEventListener('load', async () => {
+    const palette = document.getElementById('palette1');
+    await palette.loadedDefer.promise;
+
+    const item1 = document.createElement('ba-component');
+    item1.setAttribute('type', 'Button');
+    item1.setAttribute('tag', 'ba-component');
+    palette.addComponent(item1);
+
+    const item2 = document.createElement('ba-component');
+    item2.setAttribute('type', 'Container');
+    item2.setAttribute('tag', 'ba-component');
+    palette.addComponent(item2);
+
+    const item3 = document.createElement('ba-component');
+    item3.setAttribute('type', 'Image');
+    item3.setAttribute('tag', 'ba-component');
+    palette.addComponent(item3);
+
+    window._testReady = true;
+});
+</script>
+</body>
+</html>
