@@ -14,16 +14,6 @@ class APL {
 
         this.pubsub = new BestAppsPublishSubscribe();
 
-        window.apl = this;
-
-        this.pubsub.subscribe(APLComponent.EVENT_PARENT_CHANGED, (data) => {
-            let parentItem = this.aplDom.findByGuid(data.parent);
-            if (!parentItem) return;
-            let res = this.aplDom.move(data.component, parentItem);
-            if (!res.remove || !res.moveTo) return;
-            window.aplFactory.cloneByDomItemsMove(res.remove, res.moveTo);
-        });
-
         Promise.all(this.initVendors()).then(async () => {
             console.log('init');
             await this.init();
@@ -57,7 +47,7 @@ class APL {
             screen: aplScreen,
         });
 
-        window.aplFactory = aplFactory;
+        this.aplFactory = aplFactory;
 
         aplScreen.subscribe(APLScreen.EVENT_RESOLUTION_CHANGE, ({old, current}) => {
             let w = container.clientWidth;
@@ -89,9 +79,17 @@ class APL {
         aplLoader.setDom(aplDom);
 
         this.aplDom = aplDom;
-        window.aplDom = aplDom;
 
         aplFactory.setDom(aplDom);
+
+        document.addEventListener(APLComponent.EVENT_PARENT_CHANGED, (e) => {
+            const data = e.detail;
+            let parentItem = this.aplDom.findByGuid(data.parent);
+            if (!parentItem) return;
+            let res = this.aplDom.move(data.component, parentItem);
+            if (!res.remove || !res.moveTo) return;
+            this.aplFactory.cloneByDomItemsMove(res.remove, res.moveTo);
+        });
 
         this.aplLoader = aplLoader;
 
@@ -107,6 +105,14 @@ class APL {
             nameAttribute: 'apl-name',
             typeAttribute: 'apl-type',
             objectsSelector: APLObjectInspectorObjectsComponent,
+        });
+
+        await inspector.loadedDefer.promise;
+
+        inspector.objectsSelectorComponent.setContext({
+            aplDom,
+            aplFactory,
+            viewComponent: (component) => this.viewComponent(component),
         });
 
         let propertyAdaptor = new BestAppsPropertyAdaptor({

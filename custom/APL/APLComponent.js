@@ -284,11 +284,15 @@ class APLComponent extends BestAppsComponent {
         }
         if (oldParentGuid && oldParentGuid !== parent.guid) {
 
-            window.apl.publish(APLComponent.EVENT_PARENT_CHANGED, {
-                component: this,
-                parent: parent.guid,
-                oldParent: oldParentGuid
-            });
+            this.dispatchEvent(new CustomEvent(APLComponent.EVENT_PARENT_CHANGED, {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    component: this,
+                    parent: parent.guid,
+                    oldParent: oldParentGuid
+                }
+            }));
         }
 
         this.publish(APLComponent.EVENT_PARENT_SET, {

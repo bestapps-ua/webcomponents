@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>APL Drag-Drop Test</title>
+    <title>APL Decoupled Test — No window.apl / window.aplFactory / window.aplDom globals</title>
 </head>
 <body>
 <script src="/utils/uid.js"></script>
@@ -52,7 +52,17 @@ window.addEventListener('unhandledrejection', (e) => {
     window._unhandledErrors.push(e.reason?.message || String(e.reason));
 });
 
+window._parentChangedEvents = [];
+document.addEventListener(APLComponent.EVENT_PARENT_CHANGED, (e) => {
+    window._parentChangedEvents.push(e.detail);
+});
+
 window.addEventListener('load', async () => {
+    // ========================================================
+    // DELIBERATELY NOT setting window.apl, window.aplFactory,
+    // or window.aplDom — proving decoupled injection works.
+    // ========================================================
+
     const screens = APLScreen.getScreens();
     const aplScreen = new APLScreen({
         container: document.getElementById('doc-container'),
@@ -84,8 +94,6 @@ window.addEventListener('load', async () => {
     };
     const aplDom = new APLDom({ aplDocument: aplScheme });
     aplFactory.setDom(aplDom);
-    window._aplDom = aplDom;
-    window._aplFactory = aplFactory;
 
     // Build tree: Container1 > [Frame1, Text1]
     const container1 = await aplFactory.copyFromTag(
@@ -106,7 +114,7 @@ window.addEventListener('load', async () => {
     text1.setAPLParent(container1);
     aplDom.addByComponent(text1, container1);
 
-    // Set up inspector
+    // Set up inspector — inject context via setContext, NOT globals
     const inspector = document.createElement(BestAppsObjectInspectorComponent.tag);
     inspector.id = 'inspector1';
     inspector.setOptions({
@@ -117,6 +125,20 @@ window.addEventListener('load', async () => {
     document.getElementById('inspector-container').appendChild(inspector);
     await inspector.loadedDefer.promise;
 
+    const viewComponent = (component) => {
+        let properties = component.getAPLProperties();
+        let data = component.getAPLData();
+        for (const key in properties) {
+            APLProperties.encode(component, key, data[key] || properties[key]?.value || properties[key]?.default);
+        }
+    };
+
+    inspector.objectsSelectorComponent.setContext({
+        aplDom,
+        aplFactory,
+        viewComponent,
+    });
+
     const adaptor = new BestAppsPropertyAdaptor({ inspector });
     const tabs = [{
         name: 'Properties',
@@ -125,19 +147,6 @@ window.addEventListener('load', async () => {
     }];
 
     aplFactory.setInspector(inspector);
-
-    inspector.objectsSelectorComponent.setContext({
-        aplDom,
-        aplFactory,
-        viewComponent: (component) => {
-            let properties = component.getAPLProperties();
-            let data = component.getAPLData();
-            for (const key in properties) {
-                APLProperties.encode(component, key, data[key] || properties[key]?.value || properties[key]?.default);
-            }
-        },
-    });
-
     aplFactory.onSelect = (comp) => {
         adaptor.update(comp, tabs);
     };
@@ -147,7 +156,11 @@ window.addEventListener('load', async () => {
     await inspector.update({ component: frame1, tabs });
     await inspector.update({ component: text1, tabs });
 
+    // Expose test references (prefixed with _ to distinguish from the globals we're NOT setting)
+    window._aplDom = aplDom;
+    window._aplFactory = aplFactory;
     window._inspector = inspector;
+    window._docEl = docEl;
     window._container1 = container1;
     window._frame1 = frame1;
     window._text1 = text1;

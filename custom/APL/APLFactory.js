@@ -210,7 +210,7 @@ class APLFactory {
         if (!remove?.item || !moveTo?.item) return;
         options = options || {sendEvent: true};
         let isOpen = this.inspector.objectsSelectorComponent.isOpen();
-        let isSameLevel = window.aplDom.isOnSameLevel(remove.item, moveTo.item);
+        let isSameLevel = this.getDom().isOnSameLevel(remove.item, moveTo.item);
         let component;
         let index = -1;
         if (isSameLevel && level === 0 && moveTo.item.parent) {

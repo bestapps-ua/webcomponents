@@ -63,11 +63,11 @@ Describe the `APLComponent` base class based on the following analysis.
 - `onCSSSet` in the base class references `this` but is defined as an arrow function inside the property object literal - `this` binds to the outer scope during class body evaluation, not to the component instance
 - `items` array is a public instance field initialized to `[]` in the class body - all instances share the same pattern but not the same array (correct)
 - No validation that APLParent is actually a valid parent type
-- Re-parenting fires a global event via `window.apl.publish()` - tightly coupled to the global APL instance
+- No cleanup/destroy for event subscriptions when component is removed
 
 ## Issues
 - None currently tracked
 
 ## Architecture Notes
 - `onCSSSet` arrow function in APLProperties field initializer correctly captures `this` as the component instance (class field initializers run in constructor context)
-- `setAPLParent()` dispatches `EVENT_PARENT_CHANGED` via `window.apl.publish()` — this is intentional because re-parenting events must reach the global APL orchestrator; routing through the component's own pub/sub would require passing the APL instance reference, which is equivalent coupling
+- `setAPLParent()` dispatches `EVENT_PARENT_CHANGED` as a DOM `CustomEvent` (`bubbles: true, composed: true`) — the APL orchestrator listens on `document` and handles tree moves. No global coupling — the component doesn't reference any external object. See `/apl-events` skill for the full event architecture.

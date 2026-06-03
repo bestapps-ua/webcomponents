@@ -13,7 +13,7 @@ describe('APL Drag-Drop in Inspector Tree', () => {
 
     it('should have 3 components registered in APLDom', async () => {
         const count = await browser.execute(() => {
-            const dom = (window as any).aplDom;
+            const dom = (window as any)._aplDom;
             const root = dom.getItems();
             return root.length + dom.getChildrenFlatList(root[0]).length;
         });
@@ -38,7 +38,7 @@ describe('APL Drag-Drop in Inspector Tree', () => {
 
     it('should have correct tree hierarchy (Container > Frame, Text)', async () => {
         const tree = await browser.execute(() => {
-            const dom = (window as any).aplDom;
+            const dom = (window as any)._aplDom;
             const root = dom.getItems()[0];
             return {
                 rootType: root.component.getAPLType(),
@@ -63,7 +63,7 @@ describe('APL Drag-Drop in Inspector Tree', () => {
 
     it('should find all components by guid in APLDom', async () => {
         const found = await browser.execute(() => {
-            const dom = (window as any).aplDom;
+            const dom = (window as any)._aplDom;
             const w = window as any;
             return {
                 container: !!dom.findByGuid(w._container1.guid),
@@ -80,7 +80,7 @@ describe('APL Drag-Drop in Inspector Tree', () => {
 
     it('should return valid componentData for root container (no parent)', async () => {
         const data = await browser.execute(() => {
-            const dom = (window as any).aplDom;
+            const dom = (window as any)._aplDom;
             const w = window as any;
             const item = dom.findByGuid(w._container1.guid);
             const cd = dom.getComponentDataByItem(item);
@@ -100,7 +100,7 @@ describe('APL Drag-Drop in Inspector Tree', () => {
 
     it('should return valid componentData for child items', async () => {
         const data = await browser.execute(() => {
-            const dom = (window as any).aplDom;
+            const dom = (window as any)._aplDom;
             const w = window as any;
             const frameItem = dom.findByGuid(w._frame1.guid);
             const cd = dom.getComponentDataByItem(frameItem);
@@ -119,7 +119,7 @@ describe('APL Drag-Drop in Inspector Tree', () => {
 
     it('should not crash when move() receives undefined args', async () => {
         const result = await browser.execute(() => {
-            const dom = (window as any).aplDom;
+            const dom = (window as any)._aplDom;
             const r = dom.move(undefined, undefined);
             return { hasMoveTo: r.moveTo === undefined, hasRemove: r.remove === undefined };
         });
@@ -129,7 +129,7 @@ describe('APL Drag-Drop in Inspector Tree', () => {
 
     it('should not crash when move() receives one undefined arg', async () => {
         const result = await browser.execute(() => {
-            const dom = (window as any).aplDom;
+            const dom = (window as any)._aplDom;
             const item = dom.getItems()[0];
             const r = dom.move(item, undefined);
             return { hasMoveTo: r.moveTo === undefined };
@@ -141,7 +141,7 @@ describe('APL Drag-Drop in Inspector Tree', () => {
 
     it('should produce valid move data for child-to-root move', async () => {
         const result = await browser.execute(() => {
-            const dom = (window as any).aplDom;
+            const dom = (window as any)._aplDom;
             const w = window as any;
             const textItem = dom.findByGuid(w._text1.guid);
             const containerItem = dom.findByGuid(w._container1.guid);

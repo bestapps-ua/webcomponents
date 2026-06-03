@@ -23,15 +23,17 @@ init():
   1. Create APLScreen with Echo Show 2 device
   2. Create APLScreenComponent (device/resolution selector)
   3. Create APLPalette (component palette sidebar)
-  4. Create APLFactory (component creation engine)
+  4. Create APLFactory (component creation engine) -> store as this.aplFactory
   5. Subscribe to resolution changes -> resize all components
   6. Create APLDocumentComponent (main canvas)
   7. Create APLLoader (load schema from home.js)
-  8. Create APLDom (virtual tree)
-  9. Create BestAppsObjectInspectorComponent (property inspector)
-  10. Create BestAppsPropertyAdaptor (bridges inspector <-> components)
-  11. Wire up callbacks: onComponentChange, onTabChange, onComponentLoad, onSelect
-  12. Load schema and render
+  8. Create APLDom (virtual tree) -> store as this.aplDom
+  9. Register document listener for EVENT_PARENT_CHANGED CustomEvent
+  10. Create BestAppsObjectInspectorComponent (property inspector)
+  11. Await inspector loaded, call setContext({ aplDom, aplFactory, viewComponent })
+  12. Create BestAppsPropertyAdaptor (bridges inspector <-> components)
+  13. Wire up callbacks: onComponentChange, onTabChange, onComponentLoad, onSelect
+  14. Load schema and render
 ```
 
 ## Event Handling
@@ -46,13 +48,13 @@ The `onTabChange` callback handles three tab types:
 - Clean separation - APL class only wires things together, doesn't own rendering logic
 - Vendor loading is generic and extensible (just add to the array)
 - Resolution change handler correctly re-applies all properties at new dp scale
+- All subsystem dependencies are injected via setters — no global coupling
 
 ## Cons
-- Everything stored as `window.apl`, `window.aplFactory`, `window.aplDom` globals - tight coupling, not testable
 - `onTabChange` callback contains complex event-type switching with nested cases - should be decomposed
 - No error recovery if vendor loading fails (console.log only)
 - `init()` is a ~100-line async method that does too many things
 - No cleanup/destroy mechanism
 
 ## Issues
-- **Global coupling**: Direct references to `window.apl`, `window.aplFactory`, `window.aplDom` throughout the codebase make components untestable in isolation
+- None currently tracked

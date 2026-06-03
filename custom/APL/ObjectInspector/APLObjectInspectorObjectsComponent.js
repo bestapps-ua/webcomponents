@@ -6,6 +6,12 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
      */
     selectContainer;
 
+    setContext({ aplDom, aplFactory, viewComponent }) {
+        this._aplDom = aplDom;
+        this._aplFactory = aplFactory;
+        this._viewComponent = viewComponent;
+    }
+
     async initElements() {
         await super.initElements();
         window.addEventListener("mousedown", (event) => {
@@ -110,7 +116,7 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
                 return;
             }
             component.moved = true;
-            let dom = window.apl.aplDom;
+            let dom = this._aplDom;
             let guid = this.getComponents()[0].guid;
             let items = dom.getChildrenFlatList(dom.findByGuid(guid));
             let mainComponent = this.getComponents()[0];
@@ -122,10 +128,10 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
 
             await this.refreshSelect();
             let comp = dom.findByGuid(component.guid).component;
-            window.aplFactory.onSelect(comp);
+            this._aplFactory.onSelect(comp);
             items = dom.getChildrenFlatList(dom.findByGuid(comp.guid));
             for (const item of items) {
-                window.apl.viewComponent(item.component);
+                this._viewComponent(item.component);
             }
             setTimeout(() => {
                 this.selectComponent(comp, {
@@ -360,16 +366,16 @@ class APLObjectInspectorObjectsComponent extends BestAppsObjectInspectorObjectsC
         const type = this.getEventComponentType(ev);
 
         if (type.dragType === 'OPTION') {
-            let from = window.apl.aplDom.findByGuid(type.dragId);
-            let to = window.apl.aplDom.findByGuid(option.getAttribute('value'));
+            let from = this._aplDom.findByGuid(type.dragId);
+            let to = this._aplDom.findByGuid(option.getAttribute('value'));
             if (!from || !to) {
                 console.warn('drag-drop: could not find tree items', { dragId: type.dragId, targetId: option.getAttribute('value'), from, to });
                 return;
             }
             if (from.guid === to.guid) return;
-            let mv = window.apl.aplDom.move(from, to);
+            let mv = this._aplDom.move(from, to);
             if (!mv.remove || !mv.moveTo) return;
-            window.aplFactory.cloneByDomItemsMove(mv.remove, mv.moveTo);
+            this._aplFactory.cloneByDomItemsMove(mv.remove, mv.moveTo);
         }
     }
 

@@ -86,9 +86,7 @@ custom/
 - No TypeScript - relies on JSDoc and runtime for type safety
 - jQuery dependency loaded in `index.html` but barely used (only for clone demo)
 - Large vendor files (jsoneditor ~54K lines) committed directly
-- No test suite
-- `window.apl`, `window.aplFactory`, `window.aplDom` globals create tight coupling
-- No package manager usage (empty `package.json`)
+- `onTabChange` callback in APL.js has complex event-type switching with nested cases
 
 ## Known Issues
 - No error handling for missing vendor scripts or broken schema files
