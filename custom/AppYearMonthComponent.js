@@ -133,6 +133,24 @@ class AppYearMonthSelectComponent extends BestAppsComponent {
 
     show() {
         this.style.display = 'block';
+        this._positionToParent();
+    }
+
+    _positionToParent() {
+        const root = this.getRootNode();
+        const host = root?.host;
+        if (!host) return;
+        const rect = host.getBoundingClientRect();
+        const wrapper = this.shadowRoot?.querySelector('.wrapper');
+        if (!wrapper) return;
+        wrapper.style.left = `${rect.left}px`;
+        wrapper.style.visibility = 'hidden';
+        wrapper.style.top = `${rect.bottom}px`;
+        const popupRect = wrapper.getBoundingClientRect();
+        if (popupRect.bottom > window.innerHeight) {
+            wrapper.style.top = `${rect.top - popupRect.height}px`;
+        }
+        wrapper.style.visibility = '';
     }
 
     getStyle() {
@@ -142,8 +160,8 @@ class AppYearMonthSelectComponent extends BestAppsComponent {
                 width: 200px;
                 padding: 5px;
                 background-color: rgb(233, 232, 236);
-                
-               border-radius: 10px;
+                border-radius: 10px;
+                z-index: 9999;
             }
             .container {               
                position: relative;                
