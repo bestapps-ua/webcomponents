@@ -6,40 +6,41 @@ class APLDialogComponent extends APLComponent {
     getStyle() {
         return `
              :host {
-                display: none; /* Hidden by default */
-                position: fixed; /* Stay in place */
-                z-index: 999; /* Sit on top */
-                left: 0;
-                top: 0;
-                width: 100%; /* Full width */
-                height: 100%; /* Full height */
-                overflow: auto; /* Enable scroll if needed */
-                background-color: rgb(0,0,0); /* Fallback color */
-                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            }
-            
-            :host(.active) {
                 display: block;
             }
-            
+
+            dialog {
+                padding: 0;
+                border: none;
+                background: transparent;
+                max-width: 100vw;
+                max-height: 100vh;
+                width: 100vw;
+                height: 100vh;
+                margin: 0;
+            }
+
+            dialog::backdrop {
+                background-color: rgba(0,0,0,0.4);
+            }
+
             .wrapper {
                 background-color: #fefefe;
-                margin: 15% auto; /* 15% from the top and centered */
+                margin: 15% auto;
                 padding: 20px;
                 border: 1px solid #888;
-                width: 50%; /* Could be more or less, depending on screen size */
-                height: calc(100vh / 2); /* Could be more or less, depending on screen size */
+                width: 50%;
+                height: calc(100vh / 2);
                 display: flex;
                 flex-direction: column;
-                
+
             }
-            
+
             .content {
-                //background-color: black;
                 width: 100%;
                 height: 100%;
             }
-            
+
             .actions {
                 width: 100%;
                 height: 50px;
@@ -47,35 +48,37 @@ class APLDialogComponent extends APLComponent {
                 flex-direction: row;
                 align-items: center;
                 justify-content: flex-end;
-                
+
                 .btn {
                     margin-right: 5px;
                 }
             }
-            
-            
+
+
         `;
     }
 
     async initElements() {
         await super.initElements();
-        this.addEventListener('click', (e) => {
-            this.hide();
+
+        this.dialogElement = document.createElement('dialog');
+        this.element.shadow.appendChild(this.dialogElement);
+        this.dialogElement.appendChild(this.element.wrapper);
+
+        this.dialogElement.addEventListener('click', (e) => {
+            if (e.target === this.dialogElement) this.hide();
         });
 
         this.element.wrapper.addEventListener('click', (e) => {
-            e.preventDefault();
             e.stopPropagation();
         });
 
-        this._escHandler = (e) => {
-            if (e.key === 'Escape' && this.classList.contains('active')) {
-                this.hide();
-            }
-        };
-        document.addEventListener('keydown', this._escHandler);
+        this.dialogElement.addEventListener('cancel', (e) => {
+            e.preventDefault();
+            this.hide();
+        });
 
-        this.onAfterRefresh()
+        await this.onAfterRefresh();
 
         await this.initContent();
         await this.initActions();
@@ -119,7 +122,7 @@ class APLDialogComponent extends APLComponent {
         await this.loadedDefer.promise;
         this.element.content.textContent = data.content || 'Dialog';
         this.classList.add('active');
-
+        this.dialogElement.showModal();
     }
 
     hide() {
@@ -137,6 +140,9 @@ class APLDialogComponent extends APLComponent {
 
     doDone() {
         this.classList.remove('active');
+        if (this.dialogElement.open) {
+            this.dialogElement.close();
+        }
         this.onDone();
     }
 

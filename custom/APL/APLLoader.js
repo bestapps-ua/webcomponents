@@ -29,7 +29,7 @@ class APLLoader {
     }
 
     async load() {
-        this.getLocalJSON(this.data.path);
+        return this.getLocalJSON(this.data.path);
     }
 
     /**
@@ -111,7 +111,7 @@ class APLLoader {
         let tabs = [
             {
                 name: 'Properties',
-                class: BestAppsObjectInspectorPropertiesTabComponent,
+                class: APLObjectInspectorPropertiesTabComponent,
                 options: {
                     properties: this.getTabProperties(component),
                 }

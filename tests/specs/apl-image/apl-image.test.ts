@@ -19,4 +19,9 @@ describe('APLImageComponent', () => {
         const def = await fixture.propertyDef('scale');
         expect(def!.items).toEqual(['fill', 'best-fill', 'best-fit', 'best-fit-down', 'none']);
     });
+
+    it('should have visual scale-picker option', async () => {
+        const def = await fixture.propertyDef('scale');
+        expect(def!.options.visual).toBe('scale-picker');
+    });
 });

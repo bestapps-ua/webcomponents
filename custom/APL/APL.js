@@ -214,6 +214,23 @@ class APL {
         }
 
         await aplLoader.load();
+
+        let aplDataComponent = document.createElement(APLDataComponent.tag);
+        document.getElementById('data').appendChild(aplDataComponent);
+        await aplDataComponent.loadedDefer.promise;
+        aplDataComponent.setDocument(this.aplDom.aplDocument.document);
+        this.aplDataComponent = aplDataComponent;
+
+        aplDataComponent.subscribe(BestAppsComponent.EVENT_CHANGED, (data) => {
+            if (data.data?.type === APLDataComponent.EVENT_DOCUMENT_CHANGED) {
+                let json = data.data?.json;
+                if (json) {
+                    this.aplDom.aplDocument.document = json;
+                    aplLoader.scheme.document = json;
+                    aplLoader.refresh();
+                }
+            }
+        });
     }
 
     /**
@@ -269,6 +286,9 @@ class APL {
         let tabs = this.propertyAdaptor.getTabs();
         for (const tab of tabs) {
             tab.panelEl.update(data);
+        }
+        if (this.aplDataComponent) {
+            this.aplDataComponent.refresh();
         }
     }
 

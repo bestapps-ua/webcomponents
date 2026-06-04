@@ -19,7 +19,7 @@ https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/apl-im
 | `borderRadius` | text | - | `borderRadius` | Corner rounding |
 | `source` | text | - | - | Image URL |
 | `sources` | text | - | - | Array of sources (stored as text) |
-| `scale` | list | `best-fit` | - (custom) | fill, best-fill, best-fit, best-fit-down, none |
+| `scale` | list | `best-fit` | - (custom) | fill, best-fill, best-fit, best-fit-down, none. Uses `visual: 'scale-picker'` for SVG icon picker in inspector |
 
 ## Custom `onCSSSet` Logic
 
