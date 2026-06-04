@@ -122,11 +122,13 @@ class APLScreen {
     }
 
     getSizePixels(val, parentSize) {
-        if (`${val}`.includes('dp')) {
-            val = `${this.getDPSize() * parseFloat(val)}px`;
-        } else if (`${val}`.includes('%') && parentSize) {
-            val = parseFloat(val) * parentSize / 100;
-            val = `${val}px`;
+        const s = `${val}`;
+        if (s.includes('dp')) {
+            val = `${this.getDPSize() * parseFloat(s)}px`;
+        } else if (s.includes('%') && parentSize) {
+            val = `${parseFloat(s) * parentSize / 100}px`;
+        } else if (s.includes('px')) {
+            val = `${this.getDPSize() * parseFloat(s)}px`;
         }
         return val;
     }
