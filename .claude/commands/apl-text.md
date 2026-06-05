@@ -15,7 +15,7 @@ https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/apl-te
 
 | Property | Type | CSS Mapping | Notes |
 |---|---|---|---|
-| `color` | text | `color` | Text color |
+| `color` | color | `color` | Text color |
 | `fontFamily` | text | `fontFamily` | Font family |
 | `fontSize` | dimension | `fontSize` | Font size with dp support |
 | `fontStyle` | text | - | italic/normal (no CSS mapping) |
@@ -38,10 +38,7 @@ Handles `height: auto` by:
 
 ## Text Rendering
 
-The text content is injected by `APLFactory.initComponent()`:
-```js
-component.element.wrapper.innerHTML = `<div>${data.text}</div>`;
-```
+The component's `renderContent()` method creates a `<div>` with `textContent` and uses `replaceChildren()` — safe from XSS.
 
 ## Pros
 - Merges position and alignment properties for absolute positioning support
@@ -49,11 +46,9 @@ component.element.wrapper.innerHTML = `<div>${data.text}</div>`;
 - Custom `auto` height handling adapts text to its font size
 
 ## Cons
-- Many typography properties have no CSS mapping: `fontStyle`, `letterSpacing`, `lineHeight`, `maxLines`, `textAlign`, `textAlignVertical` - these are defined but don't actually affect rendering
-- `color` typed as `text` instead of `color` - won't get a color picker in the inspector
-- Text content set externally by factory via textContent, not by the component
+- Many typography properties have no CSS mapping (Feature Gap): `fontStyle`, `letterSpacing`, `lineHeight`, `maxLines`, `textAlign`, `textAlignVertical` - these are defined but don't actually affect rendering
 - `auto` height calculation assumes single-line text (uses fontSize as height)
-- No rich text / HTML rendering support (APL supports limited HTML in text)
+- No rich text / HTML rendering support (Feature Gap: APL supports limited HTML in text)
 
 ## Issues
 - None currently tracked

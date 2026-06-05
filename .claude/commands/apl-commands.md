@@ -60,9 +60,7 @@ Additional properties:
 - Extensible pattern - adding new command types is straightforward
 
 ## Cons
-- Only 2 of 15+ APL command types implemented (missing: AnimateItem, AutoPage, ClearFocus, Finish, Idle, OpenURL, Parallel, ScrollToIndex, Select, Sequential, SetFocus, SetPage, SpeakItem, SpeakList)
-- `generateUid()` is duplicated from `BestAppsComponent.generateUid()` - same exact implementation
-- `getOther()` logic is inverted - returns properties NOT in props, but checks `if(this.props[prop]) continue` which skips truthy values but includes falsy ones (0, "", null)
+- Only 2 of 15+ APL command types implemented (Feature Gap: missing AnimateItem, AutoPage, ClearFocus, Finish, Idle, OpenURL, Parallel, ScrollToIndex, Select, Sequential, SetFocus, SetPage, SpeakItem, SpeakList)
 - All additional properties typed as `text` even when they should be arrays or objects
 - Private fields declared but setter/getter patterns are verbose - could use simpler patterns
 

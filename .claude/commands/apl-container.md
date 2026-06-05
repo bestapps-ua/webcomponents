@@ -35,7 +35,6 @@ https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/apl-co
 - `APLMultiChildComponent` is effectively empty - adds no behavior, just semantic typing. Could be removed or turned into a mixin
 - `shadowColor` property is defined but has no CSS mapping or implementation
 - No support for `numbered` children (APL feature for numbered items in container)
-- Doesn't inherit position/alignment properties from `APLProperties.getContainerProperties()` or `getAlignmentAndPositioningProperties()` unlike sibling components
 
 ## Issues
 - None currently tracked

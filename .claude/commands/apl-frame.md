@@ -20,7 +20,7 @@ https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/apl-fr
 | `borderColor` | color | `borderColor` | Border color |
 | `borderRadius` | dimension | `borderRadius` | Corner rounding |
 | `borderWidth` | dimension | - (custom) | Handled in `onCSSSet` |
-| `position` | list | `position` | From `getContainerProperties()`: relative, absolute, sticky |
+| `position` | list | `position` | From `getContainerProperties()`: relative, absolute |
 | `left/top/right/bottom` | dimension | - | From `getAlignmentAndPositioningProperties()` |
 
 ## Custom `onCSSSet` Logic

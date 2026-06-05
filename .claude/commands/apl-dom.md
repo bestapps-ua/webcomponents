@@ -25,7 +25,7 @@ Each node in the tree:
 ### Tree Operations
 - `addByComponent(component, parentComponent, index)` - adds a component to the tree under a parent
 - `removeByGuid(guid)` - removes a node and re-indexes siblings
-- `findByGuid(guid, items)` - recursive search by GUID
+- `findByGuid(guid, items)` - O(1) lookup via `_guidIndex` Map, with recursive fallback
 - `findByComponent(component)` - search by component reference
 - `refreshIndexes(items)` - re-numbers sibling indices after add/remove
 
@@ -58,13 +58,13 @@ Each node in the tree:
 - APL JSON synchronization ensures the document data stays consistent with visual state
 - Parent chain traversal enables deep nesting operations
 - Index management keeps sibling order correct
+- `_guidIndex` Map provides O(1) GUID lookups
 - `moveAPLDataToParent` handles the APL `item` vs `items` normalization (single vs. multi-child)
+- `getNodeChildren` consistently wraps single `item` in array
 
 ## Cons
-- `findByGuid` is O(n) recursive search - no hash index for fast lookups
 - Tree structure duplicates information that exists in the DOM (parent-child relationships)
 - No batch operations - adding N children requires N separate `addByComponent` calls
-- `getChildrenFlatList` has inconsistency: checks both `item.items` and `item.item` properties
 - No tree validation or consistency checks
 
 ## Issues

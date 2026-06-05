@@ -1,18 +1,20 @@
-import {
-    APLComponentFixture, testAPLComponentBase,
-    testHasProperties, testPositionProperties, testPropertyType,
-} from '../../helpers/Component';
+import { APLFrameFixture } from '../../helpers/Component';
 
-const fixture = new APLComponentFixture('/tests/fixtures/apl-frame.html', '#frame1');
+const fixture = new APLFrameFixture('/tests/fixtures/apl-frame.html', '#frame1');
 
 describe('APLFrameComponent', () => {
     before(() => fixture.open());
 
-    testAPLComponentBase(fixture);
-    testHasProperties(fixture, ['background', 'backgroundColor', 'borderColor', 'borderRadius', 'borderWidth']);
-    testPositionProperties(fixture);
-    testPropertyType(fixture, 'background', 'color');
-    testPropertyType(fixture, 'backgroundColor', 'color');
-    testPropertyType(fixture, 'borderColor', 'color');
-    testPropertyType(fixture, 'borderRadius', 'dimension');
+    fixture.testFrame();
+
+    it('borderWidth should be dimension type', async () => {
+        const def = await fixture.propertyDef('borderWidth');
+        expect(def!.type).toBe('dimension');
+    });
+
+    it('onCSSSet should apply borderWidth with px unit and solid style', async () => {
+        await fixture.applyCSSSet({ borderWidth: '3' });
+        expect(await fixture.getStyle('borderWidth')).toBe('3px');
+        expect(await fixture.getStyle('borderStyle')).toBe('solid');
+    });
 });

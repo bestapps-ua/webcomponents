@@ -16,26 +16,18 @@ https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/apl-im
 | Property | Type | Default | CSS Mapping | Notes |
 |---|---|---|---|---|
 | `align` | text | - | `align` | Image alignment |
-| `borderRadius` | text | - | `borderRadius` | Corner rounding |
+| `borderRadius` | dimension | - | `borderRadius` | Corner rounding with dp support |
 | `source` | text | - | - | Image URL |
 | `sources` | text | - | - | Array of sources (stored as text) |
 | `scale` | list | `best-fit` | - (custom) | fill, best-fill, best-fit, best-fit-down, none. Uses `visual: 'scale-picker'` for SVG icon picker in inspector |
 
 ## Custom `onCSSSet` Logic
 
-Maps APL `scale` values to CSS `object-fit` on the inner `<img>` element:
-- `fill` -> `object-fit: fill`
-- `best-fill` -> `object-fit: cover`
-- `best-fit` -> `object-fit: contain`
-- `best-fit-down` -> `object-fit: scale-down`
-- `none` -> `object-fit: none`
+Chains with parent `onCSSSet`, then applies scale-based SVG sizing. The `_applyScale()` method computes SVG width/height/position based on APL scale values and wrapper dimensions.
 
 ## Image Rendering
 
-The `<img>` element is NOT created by this component. Instead, `APLFactory.initComponent()` checks the APL type and injects:
-```js
-component.element.wrapper.innerHTML = `<img src="${data.source}" alt="" />`;
-```
+The component's `renderContent()` method creates an SVG with an `<image>` element using safe DOM APIs (`createElementNS`, `setAttribute`). A probe `Image` object loads the source to get natural dimensions for scale calculations.
 
 ## Pros
 - APL scale-to-CSS object-fit mapping is correct and complete
@@ -43,10 +35,8 @@ component.element.wrapper.innerHTML = `<img src="${data.source}" alt="" />`;
 - Chains `onCSSSet` with parent properly
 
 ## Cons
-- Image element created externally by factory, not by the component - violates encapsulation
 - `sources` property is typed as `text` but APL expects an array of source objects
-- `borderRadius` typed as `text` instead of `dimension` - won't get dp conversion
-- No `overlayColor`, `overlayGradient`, or `filter` properties (APL features)
+- No `overlayColor`, `overlayGradient`, or `filter` properties (Feature Gap)
 - No loading/error states for images
 - `align` maps to CSS `align` which is not a standard CSS property (should map to `object-position` or similar)
 

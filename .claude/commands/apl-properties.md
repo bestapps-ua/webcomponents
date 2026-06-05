@@ -32,7 +32,7 @@ Reads property values from APL data for the inspector:
 
 ### Shared Property Definitions
 - `getAlignmentAndPositioningProperties()` - `left`, `top`, `right`, `bottom` (dimension)
-- `getContainerProperties()` - `position` (list: relative, absolute, sticky)
+- `getContainerProperties()` - `position` (list: relative, absolute)
 
 ## APLEvents
 
@@ -52,7 +52,6 @@ Reads all event definitions from `component.getAPLEvents()`, resolves values fro
 ## Cons
 - `encode`'s `setStyle` is a closure with multiple concerns (dp conversion, list mapping, wrapper targeting) - complex inner function
 - `decode` uses `JSON.parse(JSON.stringify(property))` for deep clone - breaks functions and special types
-- `getContainerProperties` returns `position` with `sticky` which is not a valid APL position value
 - `encode` doesn't validate property values against type constraints
 - No batch encode/decode - each property encoded individually (fine for single changes, inefficient for bulk)
 - APLEvents.encode is nearly unused - events are managed through the command system instead

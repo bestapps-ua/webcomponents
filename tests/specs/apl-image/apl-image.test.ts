@@ -1,19 +1,11 @@
-import { expect } from '@wdio/globals';
-import {
-    APLComponentFixture, testAPLComponentBase,
-    testHasProperties, testPositionProperties, testPropertyType, testPropertyDefault,
-} from '../../helpers/Component';
+import { APLImageFixture } from '../../helpers/Component';
 
-const fixture = new APLComponentFixture('/tests/fixtures/apl-image.html', '#image1');
+const fixture = new APLImageFixture('/tests/fixtures/apl-image.html', '#image1');
 
 describe('APLImageComponent', () => {
     before(() => fixture.open());
 
-    testAPLComponentBase(fixture);
-    testHasProperties(fixture, ['source', 'sources', 'scale', 'align', 'borderRadius']);
-    testPropertyType(fixture, 'scale', 'list');
-    testPropertyDefault(fixture, 'scale', 'best-fit');
-    testPositionProperties(fixture);
+    fixture.testImage();
 
     it('should have all scale options', async () => {
         const def = await fixture.propertyDef('scale');
@@ -23,5 +15,9 @@ describe('APLImageComponent', () => {
     it('should have visual scale-picker option', async () => {
         const def = await fixture.propertyDef('scale');
         expect(def!.options.visual).toBe('scale-picker');
+    });
+
+    it('borderRadius should have CSS mapping', async () => {
+        expect(await fixture.hasCSSMapping('borderRadius')).toBe(true);
     });
 });

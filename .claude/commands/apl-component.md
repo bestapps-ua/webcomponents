@@ -59,15 +59,12 @@ Describe the `APLComponent` base class based on the following analysis.
 - Event-driven re-parenting supports drag-and-drop moves
 
 ## Cons
-- `APLProperties` object contains `onCSSSet` as a function property alongside data properties - mixing concerns and causing issues in iteration (must skip `onCSSSet` key)
-- `onCSSSet` in the base class references `this` but is defined as an arrow function inside the property object literal - `this` binds to the outer scope during class body evaluation, not to the component instance
 - `items` array is a public instance field initialized to `[]` in the class body - all instances share the same pattern but not the same array (correct)
 - No validation that APLParent is actually a valid parent type
-- No cleanup/destroy for event subscriptions when component is removed
 
 ## Issues
 - None currently tracked
 
 ## Architecture Notes
-- `onCSSSet` arrow function in APLProperties field initializer correctly captures `this` as the component instance (class field initializers run in constructor context)
+- `onCSSSet()` is a proper class method on APLComponent (line 110), not an arrow function in a property literal. Subclasses chain via `super.onCSSSet()`.
 - `setAPLParent()` dispatches `EVENT_PARENT_CHANGED` as a DOM `CustomEvent` (`bubbles: true, composed: true`) — the APL orchestrator listens on `document` and handles tree moves. No global coupling — the component doesn't reference any external object. See `/apl-events` skill for the full event architecture.

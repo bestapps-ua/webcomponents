@@ -49,7 +49,7 @@ Inspector EVENT_CHANGED
 
 ## Cons
 - Callbacks set as instance properties - only one handler per event, no multi-subscriber
-- `setComponent()` uses `setTimeout(() => this.onComponentLoad(...), 1)` - fragile timing hack
+- `setComponent()` uses `requestAnimationFrame()` for deferred `onComponentLoad` - relies on frame timing
 - Deep internal access: `getTabs()` reaches through `this.getInspector().objectsSelectorComponent.tabsComponent.getTabs()` - Law of Demeter violation
 - No error handling if inspector or component is null
 - `_syncProperty` mutates tab options directly, which may cause stale references

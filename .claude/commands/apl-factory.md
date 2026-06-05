@@ -35,7 +35,7 @@ Describe the APLFactory based on the following analysis.
 ### Component Initialization
 - `initComponent(component)` - called after render:
   - Sets `draggable="true"`
-  - Injects visual content based on type (Image gets `<img>`, Text gets `<div>`, others get name label)
+  - Calls `component.renderContent()` (each component type renders its own content safely)
   - Selects the newly created component
 
 ### Component Lookup
@@ -49,9 +49,9 @@ Describe the APLFactory based on the following analysis.
 - `processElementAction` intelligently determines click targets in nested TouchWrappers
 - Clone-and-remove pattern for moves preserves component data integrity
 - Auto-numbering provides unique names per type
+- Event listeners stored as cleanup functions on component for proper `disconnectedCallback` cleanup
 
 ## Cons
-- XSS vulnerability in `initComponent()`: `data.source` and `data.text` are injected via innerHTML without sanitization
 - `cloneByDomItemsMove()` is deeply recursive and complex (~60 lines) with multiple side effects
 - `onSelect` is set as a property callback, not an event - only supports one listener
 - All items stored in a flat array - no index for fast GUID or name lookup

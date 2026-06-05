@@ -49,7 +49,6 @@ In `APLFactory.processElementAction()`, TouchWrapper gets `stopPropagation()` tr
 - `onCSSSet` chaining works correctly
 
 ## Cons
-- APLActionableComponent and APLTouchableComponent are registered as custom elements but are never instantiated directly - wasted registrations
 - None of the events (onFocus, onPress, etc.) actually wire up to real DOM events - they only exist as data in the inspector
 - `APLTouchableComponent` has no additional properties (empty merge) - just events
 - The size constraint logic in `onCSSSet` doesn't do dp conversion on the width/height values
