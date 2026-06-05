@@ -11,7 +11,7 @@ class APLImageComponent extends APLComponent {
                 }
             },
             borderRadius: {
-                type: 'text',
+                type: 'dimension',
                 options: {
                     css: true,
                 }

@@ -62,6 +62,10 @@ class BestAppsPublishSubscribe {
         return true;
     }
 
+    clear() {
+        this.events = {};
+    }
+
 }
 
 class BestAppsComponent extends HTMLElement {

@@ -20,6 +20,7 @@ class APLComponent extends BestAppsComponent {
     APLNumber;
     APLType;
     APLData = {};
+    _eventCleanups = [];
 
     /**
      * @property {APLComponent} APLParent
@@ -304,6 +305,18 @@ class APLComponent extends BestAppsComponent {
 
     getAPLParent() {
         return this.APLParent;
+    }
+
+    addEventCleanup(cleanup) {
+        this._eventCleanups.push(cleanup);
+    }
+
+    disconnectedCallback() {
+        for (const cleanup of this._eventCleanups) {
+            cleanup();
+        }
+        this._eventCleanups = [];
+        this.pubsub.clear();
     }
 }
 

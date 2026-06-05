@@ -180,13 +180,23 @@ class APLFactory {
         container.element.wrapper.appendChild(el);
         container.addItem(el.guid);
         this.addItem(el);
-        el.addEventListener("dragstart", (ev) => this.dragStartHandler(ev, el));
-        el.addEventListener('drop', (ev) => this.dropAPLHandler(ev, el));
-        el.addEventListener('dragover', (ev) => this.dragoverHandler(ev));
-        el.addEventListener('click', (ev) => {
+        const onDragStart = (ev) => this.dragStartHandler(ev, el);
+        const onDrop = (ev) => this.dropAPLHandler(ev, el);
+        const onDragOver = (ev) => this.dragoverHandler(ev);
+        const onClick = (ev) => {
             this.processElementAction(ev, el, () => {
                 this.onSelect(el);
             });
+        };
+        el.addEventListener("dragstart", onDragStart);
+        el.addEventListener('drop', onDrop);
+        el.addEventListener('dragover', onDragOver);
+        el.addEventListener('click', onClick);
+        el.addEventCleanup(() => {
+            el.removeEventListener("dragstart", onDragStart);
+            el.removeEventListener('drop', onDrop);
+            el.removeEventListener('dragover', onDragOver);
+            el.removeEventListener('click', onClick);
         });
         return new Promise((resolve, reject) => {
             el.subscribe(APLComponent.EVENT_RENDERED, () => {

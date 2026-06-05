@@ -10,6 +10,8 @@ class APLDom {
      */
     items = [];
 
+    _guidIndex = new Map();
+
     constructor(props) {
         this.aplDocument = props.aplDocument;
     }
@@ -43,6 +45,7 @@ class APLDom {
             items.splice(index, 0, item);
         }
         this.refreshIndexes(items);
+        this._guidIndex.set(guid, item);
     }
 
     removeByGuid(guid) {
@@ -53,6 +56,7 @@ class APLDom {
         }
         items.splice(item.index, 1);
         this.refreshIndexes(items);
+        this._guidIndex.delete(guid);
         item.parent = null;
         item.component = null;
     }
@@ -62,10 +66,16 @@ class APLDom {
     }
 
     getNodeChildren(node) {
-        return node.items || node.item || [];
+        if (node.items) return node.items;
+        if (node.item) return Array.isArray(node.item) ? node.item : [node.item];
+        return [];
     }
 
     findByGuid(guid, items = undefined) {
+        if (!items) {
+            let indexed = this._guidIndex.get(guid);
+            if (indexed) return indexed;
+        }
         items = items || this.getItems();
         for (const item of items) {
             if (item.guid === guid) {

@@ -5,7 +5,7 @@ class APLTextComponent extends APLComponent {
         let properties = super.getAPLProperties();
         properties = Object.assign(properties, {
             color: {
-                type: 'text',
+                type: 'color',
                 options: {
                     css: true,
                 }

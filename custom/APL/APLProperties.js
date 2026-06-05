@@ -139,7 +139,6 @@ class APLProperties {
                 items: [
                     'relative',
                     'absolute',
-                    'sticky',
                 ],
                 default: 'relative',
                 options: {

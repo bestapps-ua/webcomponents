@@ -59,9 +59,8 @@ class APLCommand {
     getOther(){
         let props = {};
         let all = this.getAll();
-        let keys = Object.keys(all);
-        for (const prop of keys) {
-            if(this.props[prop]) continue;
+        for (const prop of Object.keys(this.props)) {
+            if (prop in all) continue;
             props[prop] = {
                 type: 'text',
                 default: this.props[prop],
