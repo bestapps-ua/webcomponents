@@ -26,24 +26,24 @@ describe('AppYearMonth popup positioning', () => {
         });
     });
 
-    it('should position year popup directly below the picker (top placement)', async () => {
+    it('should position year popup directly below the input', async () => {
         const result = await browser.execute(() => {
             const picker = document.getElementById('picker-top') as any;
             const input = picker.shadowRoot.querySelector('input');
             input.click();
             const yearSel = picker.shadowRoot.querySelector('year-month-select-year-component');
             const wrapper = yearSel.shadowRoot.querySelector('.wrapper');
-            const pickerRect = picker.getBoundingClientRect();
+            const inputRect = input.getBoundingClientRect();
             const popupRect = wrapper.getBoundingClientRect();
             return {
-                pickerBottom: Math.round(pickerRect.bottom),
+                inputBottom: Math.round(inputRect.bottom),
                 popupTop: Math.round(popupRect.top),
-                pickerLeft: Math.round(pickerRect.left),
+                inputLeft: Math.round(inputRect.left),
                 popupLeft: Math.round(popupRect.left),
             };
         });
-        expect(result.popupTop).toBe(result.pickerBottom);
-        expect(result.popupLeft).toBe(result.pickerLeft);
+        expect(result.popupTop).toBe(result.inputBottom);
+        expect(result.popupLeft).toBe(result.inputLeft);
     });
 
     it('should flip year popup above picker when at bottom of viewport', async () => {
@@ -92,7 +92,7 @@ describe('AppYearMonth popup positioning', () => {
         expect(position).toBe('fixed');
     });
 
-    it('should position month popup after year selection', async () => {
+    it('should position month popup below input after year selection', async () => {
         const result = await browser.execute(() => {
             const picker = document.getElementById('picker-top') as any;
             const input = picker.shadowRoot.querySelector('input');
@@ -105,20 +105,20 @@ describe('AppYearMonth popup positioning', () => {
 
             const monthSel = picker.shadowRoot.querySelector('year-month-select-month-component');
             const monthWrapper = monthSel.shadowRoot.querySelector('.wrapper');
-            const pickerRect = picker.getBoundingClientRect();
+            const inputRect = input.getBoundingClientRect();
             const monthRect = monthWrapper.getBoundingClientRect();
             const monthVisible = monthSel.style.display;
             return {
-                pickerBottom: Math.round(pickerRect.bottom),
+                inputBottom: Math.round(inputRect.bottom),
                 monthTop: Math.round(monthRect.top),
-                pickerLeft: Math.round(pickerRect.left),
+                inputLeft: Math.round(inputRect.left),
                 monthLeft: Math.round(monthRect.left),
                 monthVisible,
             };
         });
         expect(result.monthVisible).toBe('block');
-        expect(result.monthTop).toBe(result.pickerBottom);
-        expect(result.monthLeft).toBe(result.pickerLeft);
+        expect(result.monthTop).toBe(result.inputBottom);
+        expect(result.monthLeft).toBe(result.inputLeft);
     });
 
     it('should close popups on outside click', async () => {
