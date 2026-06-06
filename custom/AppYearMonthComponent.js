@@ -129,18 +129,28 @@ class AppYearMonthSelectComponent extends BestAppsComponent {
 
     hide() {
         this.style.display = 'none';
+        if (this._resizeHandler) {
+            window.removeEventListener('resize', this._resizeHandler);
+        }
     }
 
     show() {
         this.style.display = 'block';
         this._positionToParent();
+        if (!this._resizeHandler) {
+            this._resizeHandler = () => {
+                if (this.isActive()) this._positionToParent();
+            };
+        }
+        window.addEventListener('resize', this._resizeHandler);
     }
 
     _positionToParent() {
         const root = this.getRootNode();
         const host = root?.host;
         if (!host) return;
-        const rect = host.getBoundingClientRect();
+        const input = host.shadowRoot?.querySelector('input');
+        const rect = (input || host).getBoundingClientRect();
         const wrapper = this.shadowRoot?.querySelector('.wrapper');
         if (!wrapper) return;
         wrapper.style.left = `${rect.left}px`;
