@@ -1,7 +1,22 @@
 {
-  "name": "bestapps-webcomponents",
-  "private": true,
+  "name": "@bestapps/webcomponents",
+  "version": "0.0.1",
+  "description": "BestApps Web Components",
+  "homepage": "https://github.com/bestapps-ua/webcomponents",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bestapps-ua/webcomponents.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bestapps-ua/webcomponents/issues"
+  },
+  "main": "dist/BestAppsComponent.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
+    "build": "node build.js",
     "test": "cross-env TS_NODE_TRANSPILE_ONLY=true TS_NODE_PROJECT=tests/tsconfig.json npx wdio tests/wdio.conf.js",
     "test:headed": "cross-env TS_NODE_TRANSPILE_ONLY=true TS_NODE_PROJECT=tests/tsconfig.json WDIO_HEADED=true npx wdio tests/wdio.conf.js",
     "test:unit": "jest"
