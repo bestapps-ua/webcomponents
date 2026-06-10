@@ -18,8 +18,8 @@ VERSION=$(cat package.json \
 npm whoami 2>/dev/null || npm login
 
 npm run build
-git add dist/*
-git commit -m "$VERSION" package.json package-lock.json dist/ src/ push.sh;
+git add -A
+git commit -m "$VERSION"
 git push origin main;
 git tag $VERSION;
 git push origin $VERSION;
