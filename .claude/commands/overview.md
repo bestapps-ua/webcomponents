@@ -4,11 +4,9 @@ Provide a comprehensive overview of this project based on the following analysis
 
 ## What This Project Is
 
-This is a **visual editor/designer for Amazon APL (Alexa Presentation Language)** layouts, built entirely with vanilla Web Components (no frameworks). It allows users to visually compose APL screens for Alexa devices (Echo Show, Echo Spot) using drag-and-drop, inspect/edit component properties, manage events and commands, and export the resulting APL JSON.
+This is the **base component framework and generic UI components** for the BestApps WebComponents ecosystem. It provides reusable, framework-agnostic web components for building visual editors. APL-specific components live in a separate repo (`bestapps-ua/webcomponents-apl`), and the full integrated app lives in the orchestration repo (`nvvetal/webcomponents-orchestration`).
 
 ## Architecture
-
-The project has three layers:
 
 ### 1. Base Component Framework (`BestAppsComponent.js`)
 A custom Web Components base class that extends `HTMLElement` with:
@@ -27,67 +25,38 @@ Reusable, APL-agnostic inspector and palette components:
 - **PropertyAdaptor** - bridges selected components to the inspector UI
 - **Tabs system** - generic tabbed panels
 
-### 3. APL Layer (`custom/APL/`)
-APL-specific components and orchestration:
-- **APL** - main orchestrator that wires everything together
-- **APLFactory** - creates/clones/manages APL components, handles drag-and-drop
-- **APLDom** - virtual tree representation mirroring the APL document structure
-- **APLLoader** - loads APL JSON schemas and instantiates component trees
-- **APLScreen** - device resolution management (Echo Show, Echo Spot, etc.)
-- **APLComponent** - base APL component with properties/events/parent-child
-- **Visual components** - Container, Frame, Image, Text, TouchWrapper, ScrollView, EditText, Document
-- **Commands** - APLCommand, SendEvent, SetValue
-- **Dialogs** - modal and confirm dialog components
+### 3. Demo Component (`custom/AppYearMonthComponent.js`)
+- Year/month date picker - standalone component
+
+## Multi-Repo Structure
+
+This repo is part of a three-repo ecosystem:
+- **`bestapps-ua/webcomponents`** (this repo) — Base framework + generic UI
+- **`bestapps-ua/webcomponents-apl`** — APL components (uses this repo as a git submodule)
+- **`nvvetal/webcomponents-orchestration`** — Ties both repos together, integration tests
 
 ## Key Design Patterns
 
 - **No build step** - plain ES6 classes loaded via `<script>` tags
 - **Shadow DOM everywhere** - each component encapsulates styles
-- **Publish/Subscribe** - internal event bus per component, plus global APL-level pubsub
+- **Publish/Subscribe** - internal event bus per component
 - **callWithEvent pattern** - every lifecycle method emits a corresponding event
-- **Property descriptor system** - declarative property definitions with type, CSS mapping, and APL mapping
 - **Clone-aware** - special `checkClone` mechanism handles DOM cloning across shadow roots
 
 ## File Structure
 
 ```
 BestAppsComponent.js          -- Base component + helpers
+utils/
+  uid.js                      -- Unique ID generator
+  APLComponentRegistry.js     -- Component type registration
 custom/
-  AppYearMonthComponent.js    -- Year/month date picker (demo/standalone)
+  AppYearMonthComponent.js    -- Year/month date picker
   ObjectInspector/             -- Generic property inspector framework
   ObjectPalette/               -- Draggable component palette
-  APL/                         -- APL-specific layer
-    APL.js                     -- Main orchestrator
-    APLComponent.js            -- Base APL component
-    APLFactory.js              -- Component creation & drag-drop
-    APLDom.js                  -- Virtual DOM tree
-    APLLoader.js               -- Schema loader
-    APLScreen.js               -- Device resolution
-    APLProperties.js           -- Property encode/decode
-    APLEvents.js               -- Event encode/decode
-    APL*Component.js           -- Visual components
-    ObjectInspector/           -- APL-specific inspector extensions
-    Dialogs/                   -- Modal dialogs
-    Schemas/                   -- APL JSON schemas
-    vendor/                    -- Third-party (jsoneditor, treeselectjs)
+tests/                         -- E2E tests (wdio + Mocha)
 ```
 
-## Pros
-- Zero dependencies on frameworks - pure Web Components
-- Clean separation between generic inspector/palette and APL-specific logic
-- Shadow DOM provides real style encapsulation
-- Declarative property system maps APL properties to CSS automatically
-- Extensible command system for APL events
-- Supports multiple Alexa device resolutions with dp-to-pixel conversion
-- Clone-aware architecture handles dynamic DOM manipulation
+## Tests
 
-## Cons
-- No build system, bundler, or module system - relies on global script loading order
-- No TypeScript - relies on JSDoc and runtime for type safety
-- jQuery dependency loaded in `index.html` but barely used (only for clone demo)
-- Large vendor files (jsoneditor ~54K lines) committed directly
-- `onTabChange` callback in APL.js has complex event-type switching with nested cases
-
-## Known Issues
-- No error handling for missing vendor scripts or broken schema files
-- `localStorage` usage in APLObjectInspectorObjectsComponent is not namespaced
+6 test specs covering base framework, inspector, palette, and year-month picker. Run with `npm test`.

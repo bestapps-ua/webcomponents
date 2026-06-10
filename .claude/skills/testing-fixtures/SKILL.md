@@ -10,18 +10,8 @@ tests/helpers/
   components/
     index.ts                            ← barrel re-export
     ComponentFixture.ts                 ← base: any web component
-    APLComponentFixture.ts              ← APL base: properties, events, CSS
     AsyncFixture.ts                     ← custom readiness flag
     BestAppsComponentFixture.ts         ← pub/sub, options, dynamic creation
-    APLContainerFixture.ts              ← container layout
-    APLFrameFixture.ts                  ← border/background
-    APLTextFixture.ts                   ← typography
-    APLImageFixture.ts                  ← image scale/align
-    APLTouchWrapperFixture.ts           ← touch events, click capture
-    APLScrollViewFixture.ts             ← scroll events
-    APLEditTextFixture.ts               ← input element
-    APLDocumentFixture.ts               ← document layout
-    APLScreenFixture.ts                 ← device select, resolution
     AppYearMonthFixture.ts              ← year-month picker interaction
     ObjectPaletteFixture.ts             ← palette items, drag, types
     ObjectInspectorFixture.ts           ← inspector tabs, components
@@ -32,18 +22,8 @@ tests/helpers/
 ```
 ComponentFixture
 ├── BestAppsComponentFixture
-├── APLComponentFixture
-│   ├── APLContainerFixture
-│   ├── APLFrameFixture
-│   ├── APLTextFixture
-│   ├── APLImageFixture
-│   ├── APLTouchWrapperFixture
-│   ├── APLScrollViewFixture
-│   └── APLEditTextFixture
-├── APLDocumentFixture
 ├── AppYearMonthFixture
 └── AsyncFixture
-    ├── APLScreenFixture
     ├── ObjectPaletteFixture
     └── ObjectInspectorFixture
 ```
@@ -55,7 +35,7 @@ ComponentFixture
 - **L**: Any subclass works wherever its parent is expected
 - **I**: Tests import only the fixture they need
 - **D**: Tests call typed fixture methods, never raw `browser.execute()`
-- **DRY**: Shared accessors (`wrapperStyle`, `hasShadowElement`, `hasMethod`, `applyCSSSet`) in base classes
+- **DRY**: Shared accessors (`wrapperStyle`, `hasShadowElement`, `hasMethod`) in base classes
 - **KISS**: Plain inheritance, barrel re-export, no factories or DI
 
 ## ComponentFixture — Base
@@ -77,31 +57,6 @@ ComponentFixture
 | `hasMethod(name)` | `boolean` | Check if method exists on element |
 | `testRenders()` | — | Register 4 `it()`: render, guid, shadow, loaded |
 
-## APLComponentFixture — APL Base
-
-| Method | Returns | Purpose |
-|---|---|---|
-| `propertyKeys()` | `string[]` | APL property names |
-| `propertyDef(key)` | `object` | Serializable property definition |
-| `eventKeys()` | `string[]` | APL event names |
-| `aplName()` / `aplType()` | `string` | APL identity |
-| `aplNumber()` | `number` | APL component number |
-| `addItem(guid)` | `void` | Add child item |
-| `removeItem(guid)` | `void` | Remove child item |
-| `getItemCount()` | `number` | Count child items |
-| `hasAPLData()` | `boolean` | Check APL data exists |
-| `applyCSSSet(data)` | `void` | Set APL data + mock factory + trigger onCSSSet |
-| `getStyle(prop)` | `string` | Read `el.style[prop]` (camelCase) |
-| `hasCSSMapping(key)` | `boolean` | Property has `options.css` flag |
-| `verifyCleanupOnRemove(tag)` | `boolean` | Create temp element, add cleanup, remove, check ran |
-| `verifyPubSubClearOnRemove(tag)` | `boolean` | Create temp, subscribe, remove, publish, check not called |
-| `testBase()` | — | testRenders() + apl-component class + base props |
-| `testHasProperties(props)` | — | Assert property keys |
-| `testHasEvents(events)` | — | Assert event keys |
-| `testPropertyType(key, type)` | — | Assert property type |
-| `testPropertyDefault(key, val)` | — | Assert property default |
-| `testPositionProperties()` | — | position/left/top/right/bottom |
-
 ## AsyncFixture — Custom Readiness
 
 Constructor: `(path, selector, readyFlag)`. `open()` waits for `window[readyFlag]` before `loaded`.
@@ -118,49 +73,6 @@ Constructor: `(path, selector, readyFlag)`. `open()` waits for `window[readyFlag
 | `subscribeOnceCount(event, times)` | `number` | Subscribe once, publish N times, get call count |
 | `createDynamic(tag, id, containerId)` | `Fixture` | Create element, return loaded fixture |
 | `testBestAppsBase()` | — | testRenders() + ba-component class |
-
-### APLContainerFixture
-
-| `testContainer()` | — | testBase() + container props + position + defaults |
-
-### APLFrameFixture
-
-| `testFrame()` | — | testBase() + frame props + position + types |
-
-### APLTextFixture
-
-| `testText()` | — | testBase() + typography props + position + types |
-
-### APLImageFixture
-
-| `testImage()` | — | testBase() + image props + position + types |
-
-### APLTouchWrapperFixture
-
-| Method | Returns | Purpose |
-|---|---|---|
-| `shouldCaptureClick()` | `boolean` | Click capture flag |
-| `testTouchWrapper()` | — | testBase() + position + touch events |
-
-### APLScrollViewFixture
-
-| `testScrollView()` | — | testBase() + scroll events |
-
-### APLEditTextFixture
-
-| `testEditText()` | — | testBase() + text/color props |
-
-### APLDocumentFixture
-
-| `testDocument()` | — | testRenders() + black background + column layout |
-
-### APLScreenFixture (extends AsyncFixture)
-
-| Method | Returns | Purpose |
-|---|---|---|
-| `getDeviceNames()` | `string[]` | All device option texts |
-| `getResolutionText()` | `string` | Current resolution text |
-| `getScreenDeviceName()` | `string` | Current device name from APLScreen |
 
 ### AppYearMonthFixture
 
@@ -191,26 +103,20 @@ Constructor: `(path, selector, readyFlag)`. `open()` waits for `window[readyFlag
 | `hasObjectsSelector()` | `boolean` | Objects selector exists |
 | `getTabNames()` | `string[]` | All tab names |
 
-## Usage — Zero browser.execute() in Tests
+## Usage
 
 ```ts
-import { APLTouchWrapperFixture } from '../../helpers/Component';
+import { ComponentFixture } from '../../helpers/Component';
 
-const fixture = new APLTouchWrapperFixture('/tests/fixtures/apl-touchwrapper.html', '#touch1');
+const fixture = new ComponentFixture('/tests/fixtures/my-component.html', '#my1');
 
-describe('APLTouchWrapperComponent', () => {
+describe('MyComponent', () => {
     before(() => fixture.open());
 
-    fixture.testTouchWrapper();
+    fixture.testRenders();
 
-    it('should set min/max width on CSS set', async () => {
-        await fixture.applyCSSSet({ width: '200px' });
-        expect(await fixture.getStyle('minWidth')).toBe('200px');
-        expect(await fixture.getStyle('maxWidth')).toBe('200px');
-    });
-
-    it('should capture clicks', async () => {
-        expect(await fixture.shouldCaptureClick()).toBe(true);
+    it('should have some behavior', async () => {
+        // custom assertions
     });
 });
 ```

@@ -1,16 +1,6 @@
 export { ComponentFixture } from './components/ComponentFixture';
-export { APLComponentFixture } from './components/APLComponentFixture';
 export { AsyncFixture } from './components/AsyncFixture';
 export { BestAppsComponentFixture } from './components/BestAppsComponentFixture';
-export { APLContainerFixture } from './components/APLContainerFixture';
-export { APLFrameFixture } from './components/APLFrameFixture';
-export { APLTextFixture } from './components/APLTextFixture';
-export { APLImageFixture } from './components/APLImageFixture';
-export { APLTouchWrapperFixture } from './components/APLTouchWrapperFixture';
-export { APLScrollViewFixture } from './components/APLScrollViewFixture';
-export { APLEditTextFixture } from './components/APLEditTextFixture';
-export { APLDocumentFixture } from './components/APLDocumentFixture';
-export { APLScreenFixture } from './components/APLScreenFixture';
 export { AppYearMonthFixture } from './components/AppYearMonthFixture';
 export { ObjectPaletteFixture } from './components/ObjectPaletteFixture';
 export { ObjectInspectorFixture } from './components/ObjectInspectorFixture';
