@@ -131,6 +131,7 @@ class AppYearMonthSelectComponent extends BestAppsComponent {
         this.style.display = 'none';
         if (this._resizeHandler) {
             window.removeEventListener('resize', this._resizeHandler);
+            window.removeEventListener('scroll', this._resizeHandler, true);
         }
     }
 
@@ -143,6 +144,8 @@ class AppYearMonthSelectComponent extends BestAppsComponent {
             };
         }
         window.addEventListener('resize', this._resizeHandler);
+        // capture phase so scrolling inside any ancestor scroller repositions the fixed popup too
+        window.addEventListener('scroll', this._resizeHandler, true);
     }
 
     _positionToParent() {
