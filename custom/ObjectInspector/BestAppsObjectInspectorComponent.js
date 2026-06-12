@@ -69,6 +69,7 @@ class BestAppsObjectInspectorComponents extends BestAppsComponent {
 
     clearComponents() {
         this.components.splice(0);
+        this.component = undefined;
     }
 }
 
@@ -139,6 +140,11 @@ class BestAppsObjectInspectorComponent extends BestAppsObjectInspectorComponents
                 currentComponent.classList.remove('selected');
             }
         }
+    }
+
+    clearComponents() {
+        super.clearComponents();
+        this.objectsSelectorComponent?.clearComponents();
     }
 }
 

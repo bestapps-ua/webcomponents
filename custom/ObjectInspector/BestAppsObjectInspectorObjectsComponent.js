@@ -127,6 +127,15 @@ class BestAppsObjectInspectorObjectsComponent extends BestAppsObjectInspectorCom
         this.selectElement.appendChild(option);
     }
 
+    clearOptions() {
+        if (this.selectElement) this.selectElement.innerHTML = '';
+    }
+
+    clearComponents() {
+        super.clearComponents();
+        this.clearOptions();
+    }
+
     getOptionValue(component) {
         return component.getAttribute(this.options.uidAttribute);
     }
