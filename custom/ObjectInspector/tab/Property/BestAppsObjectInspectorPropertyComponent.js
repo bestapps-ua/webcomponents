@@ -148,7 +148,7 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
     }
 
     async renderValue(value) {
-        this.valueEl.innerHTML = value || this.value;
+        this.valueEl.innerHTML = value ?? this.value ?? '';
     }
 
     setValue(value) {
@@ -157,14 +157,13 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
     }
 
     refreshValue(value) {
-        if (value) {
-            if (this.valueEl) {
-                this.renderValue(value);
-            }
+        if (!this.valueEl) {
+            return;
+        }
+        if (value !== undefined && value !== null) {
+            this.renderValue(value);
         } else {
-            if (this.valueEl) {
-                this.valueEl.innerHTML = '';
-            }
+            this.valueEl.innerHTML = '';
         }
     }
 
