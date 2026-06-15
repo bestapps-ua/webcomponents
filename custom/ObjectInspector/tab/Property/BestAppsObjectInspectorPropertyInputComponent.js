@@ -9,7 +9,8 @@ class BestAppsObjectInspectorPropertyInputComponent extends BestAppsObjectInspec
         this.fieldEl = document.createElement('input');
         this.fieldEl.setAttribute('part', 'input');
         this.fieldEl.setAttribute('type', 'text');
-        this.fieldEl.value = this.value;
+        // Empty values must show as an empty field, not the string "undefined".
+        this.fieldEl.value = this.value ?? '';
         this.fieldEl.classList.add('input');
         this.fieldEl.addEventListener('keyup', (e) => {
             if (!this.active) {
@@ -19,14 +20,14 @@ class BestAppsObjectInspectorPropertyInputComponent extends BestAppsObjectInspec
             if (e.key === 'Escape') {
 
                 this.deactivate();
-                if (this.value !== this.fieldEl.value) {
+                if (!this.isUnchangedValue(this.fieldEl.value)) {
                     this.setValue(this.fieldEl.value);
                 }
             }
             if (e.key === 'Enter') {
 
                 this.deactivate();
-                if (this.value !== this.fieldEl.value) {
+                if (!this.isUnchangedValue(this.fieldEl.value)) {
                     this.setValue(this.fieldEl.value);
                     this.sendValueChanged();
                 }

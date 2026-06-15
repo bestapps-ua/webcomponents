@@ -266,6 +266,9 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
         this.deselect();
         this.active = false;
         this.valueEl.dispatchEvent(new Event('focusout'));
+        // Restore the value display so the cell shows the value text instead of
+        // leaving the (now inert) edit field in place.
+        this.refreshValue(this.value);
     }
 
     sendValueChanged() {
@@ -290,10 +293,21 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
         }
         this.deactivate();
         let inputValue = this.getFieldValue();
-        if (this.value !== inputValue) {
+        // Treat undefined/null/'' as the same "empty" so merely clicking into an
+        // empty field and blurring (without editing) doesn't commit a value.
+        if (!this.isUnchangedValue(inputValue)) {
             this.setValue(inputValue);
             this.sendValueChanged();
         }
+    }
+
+    /**
+     * @returns {boolean} true when inputValue is equivalent to the current value,
+     * normalizing undefined/null/'' to the same empty value.
+     */
+    isUnchangedValue(inputValue) {
+        const norm = (v) => (v === undefined || v === null) ? '' : v;
+        return norm(this.value) === norm(inputValue);
     }
 
     getFieldValue() {
