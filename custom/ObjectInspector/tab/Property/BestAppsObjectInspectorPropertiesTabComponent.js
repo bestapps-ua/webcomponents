@@ -33,33 +33,51 @@ class BestAppsObjectInspectorPropertiesTabComponent extends BestAppsObjectInspec
     async initElements() {
         await super.initElements();
         this.element.wrapper.innerHTML = '';
-        const items = this.options.properties;
+        await this.layoutProperties(this.options.properties || {});
+    }
+
+    /**
+     * Render the property rows. Default layout is a flat list in key order.
+     * Override to group/sort rows; use createPropertyComponent to build each row
+     * so event wiring stays consistent.
+     */
+    async layoutProperties(items) {
         for (const key in items) {
-            let prop = items[key];
-            let cls = this.getClassByProperty(prop);
-            if(!cls) {
-                continue;
+            let property = await this.createPropertyComponent(key, items[key]);
+            if (property) {
+                this.element.wrapper.appendChild(property);
             }
-
-            let property = document.createElement(cls.tag);
-            //console.log('prop', property);
-            await property.setOptions({
-                name: key,
-                data: prop,
-                tab: this,
-            });
-
-            property.subscribe(cls.EVENT_ACTIVATE, (data) => {
-                this.deactivateProperties(property);
-            });
-
-            property.subscribe(cls.EVENT_CHANGED, (data) => {
-                this.sendPropertyChanged({tabName: this.options.tabName, key, data: data.data});
-            });
-
-            this.properties.push(property);
-            this.element.wrapper.appendChild(property);
         }
+    }
+
+    /**
+     * Build a single property row: create the element, wire its activate/changed
+     * events, and register it in this.properties. Returns the element (not yet
+     * attached to the DOM) or null when there is no matching component class.
+     */
+    async createPropertyComponent(key, prop) {
+        let cls = this.getClassByProperty(prop);
+        if (!cls) {
+            return null;
+        }
+
+        let property = document.createElement(cls.tag);
+        await property.setOptions({
+            name: key,
+            data: prop,
+            tab: this,
+        });
+
+        property.subscribe(cls.EVENT_ACTIVATE, (data) => {
+            this.deactivateProperties(property);
+        });
+
+        property.subscribe(cls.EVENT_CHANGED, (data) => {
+            this.sendPropertyChanged({tabName: this.options.tabName, key, data: data.data});
+        });
+
+        this.properties.push(property);
+        return property;
     }
 
     async update(data) {
