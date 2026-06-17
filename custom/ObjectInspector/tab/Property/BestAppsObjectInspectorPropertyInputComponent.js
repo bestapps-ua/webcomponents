@@ -41,6 +41,10 @@ class BestAppsObjectInspectorPropertyInputComponent extends BestAppsObjectInspec
             //this.sendChanged('value', {value: this.fieldEl.value});
         });
 
+        this.fieldEl.addEventListener('input', () => {
+            this.applyValidation(this.fieldEl.value);
+        });
+
         this.fieldEl.addEventListener('blur', (e) => {
             this.onDeactivate();
         });

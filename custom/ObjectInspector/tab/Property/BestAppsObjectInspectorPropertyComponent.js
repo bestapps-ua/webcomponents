@@ -11,8 +11,19 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
     value;
     type;
     options;
+    items;
+    default;
     valueEl;
     fieldEl;
+
+    /**
+     * Optional (name, value, propertyDef) => string|null validator, injected by
+     * the tab. Returns an error message for an invalid value, or null when the
+     * value is acceptable. Lets a domain layer (e.g. APL) drive per-type
+     * validation without the generic inspector knowing the rules.
+     */
+    validator;
+    validationMessage = '';
 
     active = false;
 
@@ -30,8 +41,16 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
             this.type = data.type;
             this.value = data.value;
             this.options = data.options || {};
+            this.items = data.items;
+            this.default = data.default;
         } else {
-            this.type = 'text';
+            // Raw-value refresh (e.g. update flow passes {key: value}). Keep the
+            // type already established at creation - otherwise a typed property
+            // (dimension/color/...) silently degrades to 'text' on every update,
+            // which disables value validation (red highlighting).
+            if (this.type === undefined) {
+                this.type = 'text';
+            }
             this.value = data;
         }
         if (refresh) {
@@ -120,6 +139,42 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
         await this.renderName();
         this.nameTooltipEl.innerHTML = this.name;
         await this.renderValue();
+        this.applyValidation(this.value);
+    }
+
+    /**
+     * Run the injected validator for a value.
+     * @returns {string|null} an error message, or null when valid / unvalidated.
+     * Empty values are treated as "not set" (no error here); required-field
+     * checks belong elsewhere.
+     */
+    validate(value) {
+        if (value === undefined || value === null || value === '') {
+            return null;
+        }
+        if (typeof this.validator !== 'function') {
+            return null;
+        }
+        return this.validator(this.name, value, {
+            type: this.type,
+            items: this.items,
+            options: this.options,
+            default: this.default,
+        });
+    }
+
+    /**
+     * Validate and reflect the result in the UI: an invalid value turns the
+     * cell red and exposes the explanation as a hover tooltip.
+     */
+    applyValidation(value) {
+        const message = this.validate(value ?? this.value);
+        this.validationMessage = message || '';
+        if (this.valueContainerEl) {
+            this.valueContainerEl.classList.toggle('value-container--invalid', !!message);
+            this.valueContainerEl.title = message || '';
+        }
+        return message;
     }
 
     async renderName() {
@@ -165,6 +220,7 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
         } else {
             this.valueEl.innerHTML = '';
         }
+        this.applyValidation(value);
     }
 
     deselect() {
@@ -227,7 +283,20 @@ class BestAppsObjectInspectorPropertyComponent extends BestAppsComponent {
             .value-container--selected {
                 padding: 0px;
                 border: 0px;
-            }            
+            }
+
+            .value-container--invalid {
+                border-color: #d33 !important;
+                background-color: #fdeaea;
+            }
+
+            .value-container--invalid .value {
+                color: #d33;
+            }
+
+            .value-container--invalid .value * {
+                border-color: #d33;
+            }
             
             .value {
                 width: 100%;

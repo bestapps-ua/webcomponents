@@ -19,6 +19,15 @@ class BestAppsObjectInspectorPropertiesTabComponent extends BestAppsObjectInspec
         }
     }
 
+    /**
+     * Optional (name, value, propertyDef) => string|null validator handed to
+     * each property row. Default: no validation. Override in a domain layer to
+     * drive per-type value validation (see the APL tab).
+     */
+    getValidator() {
+        return null;
+    }
+
     getClassByProperty(property) {
         //console.log('property', property);
         let cls = BestAppsObjectInspectorPropertyInputComponent;
@@ -62,6 +71,7 @@ class BestAppsObjectInspectorPropertiesTabComponent extends BestAppsObjectInspec
         }
 
         let property = document.createElement(cls.tag);
+        property.validator = this.getValidator();
         await property.setOptions({
             name: key,
             data: prop,
