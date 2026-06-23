@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <!-- This page lives in examples/; resolve all relative asset paths from the repo root. -->
+    <base href="../">
     <title>BestApps WebComponents — Component Workbench</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%233e63dd'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Prism for the syntax-highlighted source panel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -356,10 +360,40 @@
             0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(214, 69, 69, 0.5); }
             50%      { opacity: 0.6; box-shadow: 0 0 0 5px rgba(214, 69, 69, 0); }
         }
+
+        /* ---------- 04 source (code panel) ---------- */
+
+        #panel-source { margin-top: 24px; animation: rise 0.55s ease-out 0.45s backwards; }
+        #panel-source .panel-body { padding: 0; }
+
+        .code-wrap { background: #2d2d2d; }
+        .code-bar {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 12px; background: #20232a; border-bottom: 1px solid #000;
+        }
+        .dots { display: flex; gap: 5px; }
+        .dots i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+        .dots i:nth-child(1) { background: #ff5f56; }
+        .dots i:nth-child(2) { background: #ffbd2e; }
+        .dots i:nth-child(3) { background: #27c93f; }
+        .code-lang { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #9aa3b2; }
+        .copy-btn {
+            margin-left: auto; font: inherit; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+            color: #cdd3df; background: #353a45; border: 1px solid #454c5a; border-radius: 4px;
+            padding: 3px 9px; cursor: pointer;
+        }
+        .copy-btn:hover { background: #424857; color: #fff; }
+        .copy-btn.copied { background: #27c93f; border-color: #27c93f; color: #06210d; }
+        .code-wrap pre { margin: 0; max-height: 460px; }
+        .code-wrap pre[class*="language-"] { border-radius: 0; }
+        .code-wrap code[class*="language-"] { font-size: 12px; line-height: 1.7; }
     </style>
 
     <script src="utils/uid.js"></script>
     <script src="BestAppsComponent.js"></script>
+    <!-- Tailwind/custom-style runtime (vendored, optional) -->
+    <script src="vendor/twind/twind.umd.js"></script>
+    <script src="BestAppsStyleEngine.js"></script>
     <script src="custom/AppYearMonthComponent.js"></script>
     <script src="custom/ObjectInspector/BestAppsObjectInspectorComponent.js"></script>
     <script src="custom/ObjectInspector/BestAppsObjectInspectorObjectsComponent.js"></script>
@@ -371,6 +405,7 @@
     <script src="custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyListComponent.js"></script>
     <script src="custom/ObjectInspector/tab/Property/BestAppsObjectInspectorPropertyArrayComponent.js"></script>
     <script src="custom/ObjectInspector/BestAppsPropertyAdaptor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" data-manual></script>
 </head>
 <body>
 <div class="sheet">
@@ -443,6 +478,17 @@
         </section>
 
     </main>
+
+    <section class="panel" id="panel-source">
+        <div class="panel-head">
+            <span class="no">04</span>
+            <span class="name">Source</span>
+            <span class="desc">how the stage above is wired</span>
+        </div>
+        <div class="panel-body">
+            <div class="code-wrap" id="usage-code"></div>
+        </div>
+    </section>
 
     <footer class="colophon">
         <span>@bestapps/webcomponents &middot; demo</span>
@@ -559,6 +605,60 @@
         await inspector.update({component: from, tabs: tabsFor(from)});
         await inspector.update({component: to, tabs: tabsFor(to)});
         adaptor.update(from, tabsFor(from));
+    });
+</script>
+
+<!-- 04 Source: render the wiring excerpt into a highlighted, copyable code panel -->
+<script>
+    window.addEventListener('load', function () {
+        function buildCodePanel(host, code) {
+            const bar = document.createElement('div');
+            bar.className = 'code-bar';
+            bar.innerHTML = '<span class="dots"><i></i><i></i><i></i></span><span class="code-lang">javascript</span>';
+
+            const copy = document.createElement('button');
+            copy.className = 'copy-btn';
+            copy.textContent = 'copy';
+            copy.addEventListener('click', function () {
+                navigator.clipboard.writeText(code).then(function () {
+                    copy.textContent = 'copied'; copy.classList.add('copied');
+                    setTimeout(function () { copy.textContent = 'copy'; copy.classList.remove('copied'); }, 1200);
+                });
+            });
+            bar.appendChild(copy);
+
+            const pre = document.createElement('pre');
+            const codeEl = document.createElement('code');
+            codeEl.className = 'language-javascript';
+            codeEl.textContent = code;     // textContent so Prism escapes < > & correctly
+            pre.appendChild(codeEl);
+
+            host.append(bar, pre);
+            Prism.highlightElement(codeEl);
+        }
+
+        buildCodePanel(document.getElementById('usage-code'),
+"window.addEventListener('load', async () => {\n" +
+"  // 1. create an AppYearMonth picker and mount it on the stage\n" +
+"  const from = document.createElement(AppYearMonthComponent.tag);\n" +
+"  from.setAttribute('year', 2024);\n" +
+"  from.setAttribute('month', 'May');\n" +
+"  from.setAttribute('type', 'Calendar');\n" +
+"  document.getElementById('field-from').appendChild(from);\n" +
+"  await from.loadedDefer.promise;\n" +
+"\n" +
+"  // 2. mount the ObjectInspector\n" +
+"  const inspector = document.createElement(BestAppsObjectInspectorComponent.tag);\n" +
+"  await inspector.setOptions({\n" +
+"    nameAttribute: 'name', typeAttribute: 'type', uidAttribute: 'guid'\n" +
+"  });\n" +
+"  document.getElementById('inspector').appendChild(inspector);\n" +
+"\n" +
+"  // 3. picker changes flow over the component event bus -> the log\n" +
+"  from.subscribe(BestAppsComponent.EVENT_CHANGED, (event) => {\n" +
+"    logEvent(from.getAttribute('name'), event.data);\n" +
+"  });\n" +
+"});");
     });
 </script>
 </body>
