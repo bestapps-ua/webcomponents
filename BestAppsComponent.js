@@ -118,6 +118,11 @@ class BestAppsComponent extends HTMLElement {
             wrapper: undefined,
         }
 
+        // Authoring-only custom styling applied to .wrapper (see applyCustomStyles).
+        // Tracked so each re-application is idempotent (previous classes/props cleared).
+        this._customClasses = [];
+        this._customStyleProps = [];
+
         this.guid = this.generateUid();
 
         this.initSubscriptions();
@@ -269,6 +274,62 @@ class BestAppsComponent extends HTMLElement {
 
     getStyle() {
         return '';
+    }
+
+    /**
+     * Apply authoring-only `className` (Tailwind/custom utility classes) and `style`
+     * (raw CSS declarations) to the rendered .wrapper. This is a convenience for OUR
+     * renderer only - it is not part of any external contract (e.g. the Alexa APL
+     * document). Utility classes are resolved through BestAppsStyleEngine (Twind),
+     * which is optional: when absent the class string is applied as-is and raw `style`
+     * still works.
+     *
+     * Idempotent: previously applied classes/declarations are cleared before each
+     * re-application so edits and removals are deterministic.
+     *
+     * @param {string} [className] space-separated utility/custom classes
+     * @param {string} [styleText] declaration list like an HTML style attribute
+     */
+    applyCustomStyles(className, styleText) {
+        const wrapper = this.element?.wrapper;
+        if (!wrapper) return;
+
+        // --- utility classes ---------------------------------------------------
+        if (this._customClasses?.length) {
+            wrapper.classList.remove(...this._customClasses);
+        }
+        this._customClasses = [];
+        if (className) {
+            let resolved = className;
+            if (typeof BestAppsStyleEngine !== 'undefined') {
+                BestAppsStyleEngine.register(this.element.shadow);
+                resolved = BestAppsStyleEngine.process(className);
+            }
+            this._customClasses = `${resolved}`.split(/\s+/).filter(Boolean);
+            if (this._customClasses.length) {
+                wrapper.classList.add(...this._customClasses);
+            }
+        }
+
+        // --- raw CSS declarations ---------------------------------------------
+        // Applied inline so they win over both getStyle() rules and utility classes.
+        if (this._customStyleProps?.length) {
+            for (const prop of this._customStyleProps) {
+                wrapper.style.removeProperty(prop);
+            }
+        }
+        this._customStyleProps = [];
+        if (styleText) {
+            for (const decl of `${styleText}`.split(';')) {
+                const idx = decl.indexOf(':');
+                if (idx === -1) continue;
+                const prop = decl.slice(0, idx).trim();
+                const value = decl.slice(idx + 1).trim();
+                if (!prop || !value) continue;
+                wrapper.style.setProperty(prop, value);
+                this._customStyleProps.push(prop);
+            }
+        }
     }
 
     async initConnected() {

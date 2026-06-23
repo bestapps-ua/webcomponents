@@ -46,6 +46,29 @@ export class BestAppsComponentFixture extends ComponentFixture {
         return fixture;
     }
 
+    /** Call applyCustomStyles(className, style) on the component. */
+    async applyCustomStyles(className?: string, style?: string): Promise<void> {
+        await browser.execute((sel: string, cls: string | undefined, st: string | undefined) => {
+            (document.querySelector(sel) as any).applyCustomStyles(cls, st);
+        }, this.selector, className, style);
+    }
+
+    /** The .wrapper element's class list. */
+    async wrapperClasses(): Promise<string[]> {
+        return browser.execute((sel: string) => {
+            const el = document.querySelector(sel) as any;
+            return [...el.element.shadow.querySelector('.wrapper').classList];
+        }, this.selector);
+    }
+
+    /** An inline style property set directly on .wrapper (not computed). */
+    async wrapperInlineStyle(property: string): Promise<string> {
+        return browser.execute((sel: string, prop: string) => {
+            const el = document.querySelector(sel) as any;
+            return el.element.shadow.querySelector('.wrapper').style.getPropertyValue(prop);
+        }, this.selector, property);
+    }
+
     testBestAppsBase() {
         this.testRenders();
         it('should have ba-component CSS class', async () => {

@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const DIST = path.join(__dirname, 'dist');
-const SRC_DIRS = ['custom', 'utils'];
-const SRC_FILES = ['BestAppsComponent.js'];
+const SRC_DIRS = ['custom', 'utils', 'vendor'];
+const SRC_FILES = ['BestAppsComponent.js', 'BestAppsStyleEngine.js'];
 
 function copyDir(src, dest) {
     fs.mkdirSync(dest, { recursive: true });
